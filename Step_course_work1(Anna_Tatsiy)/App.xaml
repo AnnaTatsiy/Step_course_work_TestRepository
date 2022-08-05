@@ -1,0 +1,9 @@
+﻿<Application x:Class="Step_course_work1_Anna_Tatsiy_.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Step_course_work1_Anna_Tatsiy_"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
