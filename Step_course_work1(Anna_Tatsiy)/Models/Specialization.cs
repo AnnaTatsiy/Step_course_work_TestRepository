@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Step_course_work1_Anna_Tatsiy_.Models
 {
-    internal class Specialization
+    internal class Specialization//Специальность рабочего 
     {
+        public int Id { get; set; }
+        public string NameSpecialization { get; set; }//Название специальности
     }
 }

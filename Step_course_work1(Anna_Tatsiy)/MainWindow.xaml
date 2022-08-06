@@ -4,9 +4,43 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Step_course_work1_Anna_Tatsiy_"
+        xmlns:viewModel="clr-namespace:Step_course_work1_Anna_Tatsiy_.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <viewModel:AppViewModel/>
+    </Window.DataContext>
+    
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <ToolBar Grid.Row="0"></ToolBar>
+        
+        <TabControl Grid.Row="1" FontSize="14">
+            <TabItem Header="Клиенты">
+                <DataGrid Background="AliceBlue" 
+                     ItemsSource="{Binding Clients}">
+                </DataGrid>
+            </TabItem>
+
+            <TabItem Header="Рабочие">
+                <DataGrid Background="AliceBlue" 
+                     ItemsSource="{Binding Workers}">
+                </DataGrid>
+            </TabItem>
+
+            <TabItem Header="Авто">
+                <DataGrid Background="AliceBlue" 
+                     ItemsSource="{Binding Cars}">
+                </DataGrid>
+            </TabItem>
+            
+        </TabControl>
         
     </Grid>
 </Window>
