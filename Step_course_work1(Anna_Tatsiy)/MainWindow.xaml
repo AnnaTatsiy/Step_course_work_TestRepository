@@ -39,7 +39,102 @@
                      ItemsSource="{Binding Cars}">
                 </DataGrid>
             </TabItem>
-            
+
+            <TabItem Header="Ремонты">
+                <DataGrid Background="AliceBlue" 
+                     ItemsSource="{Binding Repairs}">
+                </DataGrid>
+            </TabItem>
+
+            <TabItem Header="Запрос 1">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Margin="10">Вывести владельца автомобиля с выбранным номером государственной регистрации.</TextBlock>
+                    <ComboBox Width="200" 
+                              Margin="5,5,5,10" 
+                              ItemsSource="{Binding StateNumbers}"
+                              SelectedValue="{Binding StateNumber, Mode=TwoWay}"
+                              SelectedValuePath="Id"
+                              DisplayMemberPath="StateNumber"
+                              SelectedIndex="0"
+                              ></ComboBox>
+
+                    <Button Width="100" 
+                            Height="20" 
+                            Margin="5,5,5,10"
+                            Command="{Binding SelectByQuery1Command}">Поиск</Button>
+                    <DataGrid Background="AliceBlue"
+                              ItemsSource="{Binding Query1}">
+                    </DataGrid>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Запрос 2">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Margin="10">Вывести автомобиль выбранного владельца.</TextBlock>
+                    <ComboBox Width="200" 
+                              Margin="5,5,5,10" 
+                              ItemsSource="{Binding Passports}"
+                              SelectedValue="{Binding Passport, Mode=TwoWay}"
+                              SelectedValuePath="Id"
+                              DisplayMemberPath="Passport"
+                              SelectedIndex="0"
+                              ></ComboBox>
+
+                    <Button Width="100" 
+                            Height="20" 
+                            Margin="5,5,5,10"
+                            Command="{Binding SelectByQuery2Command}">Поиск</Button>
+                    <DataGrid Background="AliceBlue"
+                              ItemsSource="{Binding Query2}">
+                    </DataGrid>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Запрос 3">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Margin="10">Вывести перечень устраненных неисправностей в автомобиле выбранного владельца.</TextBlock>
+                    <ComboBox Width="200" 
+                              Margin="5,5,5,10" 
+                              ItemsSource="{Binding Passports}"
+                              SelectedValue="{Binding Passport, Mode=TwoWay}"
+                              SelectedValuePath="Id"
+                              DisplayMemberPath="Passport"
+                              SelectedIndex="0"
+                              ></ComboBox>
+
+                    <Button Width="100" 
+                            Height="20" 
+                            Margin="5,5,5,10"
+                            Command="{Binding SelectByQuery3Command}">Поиск</Button>
+                    <DataGrid Background="AliceBlue"
+                              ItemsSource="{Binding Query3}">
+                    </DataGrid>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Запрос 5">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Margin="10">Вывести клиентов, сдавших в ремонт автомобили с указанным типом неисправности.</TextBlock>
+                    <ComboBox Width="200" 
+                              Margin="5,5,5,10" 
+                              ItemsSource="{Binding Malfunctions}"
+                              SelectedValue="{Binding MalfunctionId, Mode=TwoWay}"
+                              SelectedValuePath="Id"
+                              DisplayMemberPath="Malfunction"
+                              SelectedIndex="0"
+                              ></ComboBox>
+
+                    <Button Width="100" 
+                            Height="20" 
+                            Margin="5,5,5,10"
+                            Command="{Binding SelectByQuery5Command}">Поиск</Button>
+                    <DataGrid Background="AliceBlue"
+                              ItemsSource="{Binding Query5}">
+                    </DataGrid>
+                </StackPanel>
+            </TabItem>
+
+
         </TabControl>
         
     </Grid>

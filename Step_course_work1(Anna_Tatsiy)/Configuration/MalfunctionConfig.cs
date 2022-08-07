@@ -13,6 +13,7 @@ namespace Step_course_work1_Anna_Tatsiy_.Configuration
                     .IsRequired()
                     .IsVariableLength();
 
+            Property(m => m.Price).IsRequired();
         }
     }
 }

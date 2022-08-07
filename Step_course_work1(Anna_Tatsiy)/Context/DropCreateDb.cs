@@ -113,18 +113,18 @@ namespace Step_course_work1_Anna_Tatsiy_.Context
             Car cr10 = new Car { IdCarBrand = 10, IdColor = 10, YearOfRelease = 2021, StateNumber = "К009МЕ68", IdClient = 10, CarBrand = cb10, Color = cl10, Client = c10 };
             context.Cars.AddRange(new List<Car> { cr1, cr2, cr3, cr4, cr5, cr6, cr7, cr8, cr9, cr10 });
 
-            Malfunction m1 = new Malfunction { NameMalfunction = "Падение оборотов при ускорении." };
-            Malfunction m2 = new Malfunction { NameMalfunction = "Двигатель вращается, но не заводится." };
-            Malfunction m3 = new Malfunction { NameMalfunction = "Вибрация колес." };
-            Malfunction m4 = new Malfunction { NameMalfunction = "Шум и неровное вращение стартера." };
-            Malfunction m5 = new Malfunction { NameMalfunction = "Двигатель в масле." };
-            Malfunction m6 = new Malfunction { NameMalfunction = "Пропуски зажигания под нагрузкой." };
-            Malfunction m7 = new Malfunction { NameMalfunction = "Двигатель останавливается." };
-            Malfunction m8 = new Malfunction { NameMalfunction = "Большой расход топлива." };
-            Malfunction m9 = new Malfunction { NameMalfunction = "Не включается передача." };
-            Malfunction m10 = new Malfunction { NameMalfunction = "Шум в сцеплении." };
-            Malfunction m11 = new Malfunction { NameMalfunction = "Повышенное усилие торможения." };
-            Malfunction m12 = new Malfunction { NameMalfunction = "Повышенный износ шин." };
+            Malfunction m1 = new Malfunction { NameMalfunction = "Падение оборотов при ускорении." , Price = 2400};
+            Malfunction m2 = new Malfunction { NameMalfunction = "Двигатель вращается, но не заводится.", Price = 4400 };
+            Malfunction m3 = new Malfunction { NameMalfunction = "Вибрация колес.", Price = 2500 };
+            Malfunction m4 = new Malfunction { NameMalfunction = "Шум и неровное вращение стартера.", Price = 1400 };
+            Malfunction m5 = new Malfunction { NameMalfunction = "Двигатель в масле.", Price = 5800 };
+            Malfunction m6 = new Malfunction { NameMalfunction = "Пропуски зажигания под нагрузкой.", Price = 2700 };
+            Malfunction m7 = new Malfunction { NameMalfunction = "Двигатель останавливается.", Price = 5400 };
+            Malfunction m8 = new Malfunction { NameMalfunction = "Большой расход топлива.", Price = 1400 };
+            Malfunction m9 = new Malfunction { NameMalfunction = "Не включается передача.", Price = 3600 };
+            Malfunction m10 = new Malfunction { NameMalfunction = "Шум в сцеплении.", Price = 2100 };
+            Malfunction m11 = new Malfunction { NameMalfunction = "Повышенное усилие торможения.", Price = 8400 };
+            Malfunction m12 = new Malfunction { NameMalfunction = "Повышенный износ шин.", Price = 1000 };
             context.Malfunctions.AddRange(new List<Malfunction> {m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12 });
 
             SparePart sp1 = new SparePart { NameSparePart = "Аккумулятор 100 ah", Price = 2000 };
@@ -382,7 +382,7 @@ namespace Step_course_work1_Anna_Tatsiy_.Context
                 Client = c8,
                 SparePart = sp9
             };
-            
+            context.Repairs.AddRange(new List<Repair> { r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15});
 
             context.SaveChanges();
         }

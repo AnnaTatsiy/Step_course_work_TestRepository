@@ -15,5 +15,6 @@ namespace Step_course_work1_Anna_Tatsiy_.Models
 
         public int? IdPerson { get; set; }//Id персоны 
         public Person Person { get; set; }
+
     }
 }

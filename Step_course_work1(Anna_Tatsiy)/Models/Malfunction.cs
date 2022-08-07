@@ -10,5 +10,6 @@ namespace Step_course_work1_Anna_Tatsiy_.Models
     {
         public int Id { get; set; }
         public string NameMalfunction { get; set; }//Название неисправности
+        public int Price { get; set; }//Стоимость ремонта
     }
 }
