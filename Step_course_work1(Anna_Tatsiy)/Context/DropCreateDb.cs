@@ -71,7 +71,12 @@ namespace Step_course_work1_Anna_Tatsiy_.Context
             Worker w8 = new Worker { IdPerson = 18, IdSpecialization = 8, WorkersСategory = 4, Experience = 4, Person = p18, Specialization = s8 };
             Worker w9 = new Worker { IdPerson = 19, IdSpecialization = 9, WorkersСategory = 1, Experience = 6, Person = p19, Specialization = s9 };
             Worker w10 = new Worker { IdPerson = 20, IdSpecialization = 10, WorkersСategory = 2, Experience = 10, Person = p20, Specialization = s10 };
-            context.Workers.AddRange(new List<Worker> { w1,w2,w3,w4,w5,w6,w7,w8,w9,w10});
+            Worker w11 = new Worker { IdPerson = 1, IdSpecialization = 6, WorkersСategory = 2, Experience = 2, Person = p1, Specialization = s6 };
+            Worker w12 = new Worker { IdPerson = 2, IdSpecialization = 7, WorkersСategory = 3, Experience = 1, Person = p2, Specialization = s7 };
+            Worker w13 = new Worker { IdPerson = 3, IdSpecialization = 8, WorkersСategory = 4, Experience = 4, Person = p3, Specialization = s8 };
+            Worker w14 = new Worker { IdPerson = 4, IdSpecialization = 9, WorkersСategory = 1, Experience = 6, Person = p4, Specialization = s9 };
+            Worker w15 = new Worker { IdPerson = 5, IdSpecialization = 10, WorkersСategory = 2, Experience = 8, Person = p5, Specialization = s10 };
+            context.Workers.AddRange(new List<Worker> { w1,w2,w3,w4,w5,w6,w7,w8,w9,w10,w11,w12,w13,w14,w15});
 
             CarBrand cb1 = new CarBrand { NameCarBrand = "УАЗ Pickup" };
             CarBrand cb2 = new CarBrand { NameCarBrand = "Skoda Karoq I" };
@@ -111,7 +116,13 @@ namespace Step_course_work1_Anna_Tatsiy_.Context
             Car cr8 = new Car { IdCarBrand = 8, IdColor = 8, YearOfRelease = 2010, StateNumber = "У050КВ777", IdClient = 8, CarBrand = cb8, Color = cl8, Client = c8 };
             Car cr9 = new Car { IdCarBrand = 9, IdColor = 9, YearOfRelease = 2022, StateNumber = "М700ММ96", IdClient = 9, CarBrand = cb9, Color = cl9, Client = c9 };
             Car cr10 = new Car { IdCarBrand = 10, IdColor = 10, YearOfRelease = 2021, StateNumber = "К009МЕ68", IdClient = 10, CarBrand = cb10, Color = cl10, Client = c10 };
-            context.Cars.AddRange(new List<Car> { cr1, cr2, cr3, cr4, cr5, cr6, cr7, cr8, cr9, cr10 });
+            Car cr11 = new Car { IdCarBrand = 5, IdColor = 5, YearOfRelease = 2016, StateNumber = "А193СС190", IdClient = 5, CarBrand = cb5, Color = cl5, Client = c5 };
+            Car cr12= new Car { IdCarBrand = 6, IdColor = 6, YearOfRelease = 2017, StateNumber = "Н673УУ17", IdClient = 6, CarBrand = cb6, Color = cl6, Client = c6 };
+            Car cr13 = new Car { IdCarBrand = 7, IdColor = 7, YearOfRelease = 2021, StateNumber = "К581УН12", IdClient = 7, CarBrand = cb7, Color = cl7, Client = c7 };
+            Car cr14 = new Car { IdCarBrand = 8, IdColor = 8, YearOfRelease = 2010, StateNumber = "У080КВ719", IdClient = 8, CarBrand = cb8, Color = cl8, Client = c8 };
+            Car cr15 = new Car { IdCarBrand = 9, IdColor = 9, YearOfRelease = 2022, StateNumber = "М840ММ16", IdClient = 9, CarBrand = cb9, Color = cl9, Client = c9 };
+            Car cr16 = new Car { IdCarBrand = 10, IdColor = 10, YearOfRelease = 2021, StateNumber = "К899МЕ18", IdClient = 10, CarBrand = cb10, Color = cl10, Client = c10 };
+            context.Cars.AddRange(new List<Car> { cr1, cr2, cr3, cr4, cr5, cr6, cr7, cr8, cr9, cr10,cr11,cr12,cr13,cr14,cr15 });
 
             Malfunction m1 = new Malfunction { NameMalfunction = "Падение оборотов при ускорении." , Price = 2400};
             Malfunction m2 = new Malfunction { NameMalfunction = "Двигатель вращается, но не заводится.", Price = 4400 };
@@ -382,7 +393,88 @@ namespace Step_course_work1_Anna_Tatsiy_.Context
                 Client = c8,
                 SparePart = sp9
             };
-            context.Repairs.AddRange(new List<Repair> { r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15});
+
+            Repair r16 = new Repair
+            {
+                IdMalfunction = 9,
+                IdWorker = 2,
+                IdCar = 12,
+                IdClient = 6,
+                IdSparePart = 1,
+                DateOfDetection = new DateTime(2022, 7, 24),
+                DateOfCorrection = new DateTime(2022, 7, 28),
+                IsFixed = true,
+                Malfunction = m9,
+                Worker = w2,
+                Car = cr12,
+                Client = c6,
+                SparePart = sp1
+            };
+            Repair r17 = new Repair
+            {
+                IdMalfunction = 7,
+                IdWorker = 2,
+                IdCar = 14,
+                IdClient = 2,
+                IdSparePart = 5,
+                DateOfDetection = new DateTime(2022, 7, 27),
+                DateOfCorrection = new DateTime(2022, 7, 30),
+                IsFixed = true,
+                Malfunction = m7,
+                Worker = w2,
+                Car = cr14,
+                Client = c2,
+                SparePart = sp5
+            };
+            Repair r18 = new Repair
+            {
+                IdMalfunction = 7,
+                IdWorker = 8,
+                IdCar = 15,
+                IdClient = 1,
+                IdSparePart = 2,
+                DateOfDetection = new DateTime(2022, 7, 28),
+                DateOfCorrection = new DateTime(2022, 7, 31),
+                IsFixed = true,
+                Malfunction = m7,
+                Worker = w8,
+                Car = cr15,
+                Client = c1,
+                SparePart = sp2
+            };
+            Repair r19 = new Repair
+            {
+                IdMalfunction = 2,
+                IdWorker = 1,
+                IdCar = 13,
+                IdClient = 4,
+                IdSparePart = 5,
+                DateOfDetection = new DateTime(2022, 8, 1),
+                DateOfCorrection = new DateTime(2022, 8, 5),
+                IsFixed = true,
+                Malfunction = m2,
+                Worker = w1,
+                Car = cr13,
+                Client = c4,
+                SparePart = sp5
+            };
+            Repair r20 = new Repair
+            {
+                IdMalfunction = 5,
+                IdWorker = 6,
+                IdCar = 11,
+                IdClient = 8,
+                IdSparePart = 9,
+                DateOfDetection = new DateTime(2022, 8, 3),
+                DateOfCorrection = new DateTime(2022, 8, 8),
+                IsFixed = true,
+                Malfunction = m5,
+                Worker = w6,
+                Car = cr11,
+                Client = c8,
+                SparePart = sp9
+            };
+            context.Repairs.AddRange(new List<Repair> { r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15,r16,r17,r18,r19,r20});
 
             context.SaveChanges();
         }

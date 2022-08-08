@@ -14,14 +14,8 @@
     </Window.DataContext>
     
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
 
-        <ToolBar Grid.Row="0"></ToolBar>
-        
-        <TabControl Grid.Row="1" FontSize="14">
+        <TabControl  FontSize="14">
             <TabItem Header="Клиенты">
                 <DataGrid Background="AliceBlue" 
                      ItemsSource="{Binding Clients}">
@@ -112,6 +106,39 @@
                 </StackPanel>
             </TabItem>
 
+            <TabItem Header="Запрос 4">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Margin="10">Вывести работника станции, устранявшего данную неисправность в автомобиле данного клиента, и время устранения.</TextBlock>
+
+                    <ComboBox Width="200" 
+                              Margin="5,5,5,10" 
+                              ItemsSource="{Binding Malfunctions}"
+                              SelectedValue="{Binding MalfunctionId, Mode=TwoWay}"
+                              SelectedValuePath="Id"
+                              DisplayMemberPath="Malfunction"
+                              SelectedIndex="0"
+                              >
+                    </ComboBox>
+
+                    <ComboBox Width="200" 
+                              Margin="5,5,5,10" 
+                              ItemsSource="{Binding Passports}"
+                              SelectedValue="{Binding Passport, Mode=TwoWay}"
+                              SelectedValuePath="Id"
+                              DisplayMemberPath="Passport"
+                              SelectedIndex="0"
+                              ></ComboBox>
+
+                    <Button Width="100" 
+                            Height="20" 
+                            Margin="5,5,5,10"
+                            Command="{Binding SelectByQuery4Command}">Поиск</Button>
+                    <DataGrid Background="AliceBlue"
+                              ItemsSource="{Binding Query4}">
+                    </DataGrid>
+                </StackPanel>
+            </TabItem>
+
             <TabItem Header="Запрос 5">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Margin="10">Вывести клиентов, сдавших в ремонт автомобили с указанным типом неисправности.</TextBlock>
@@ -132,6 +159,38 @@
                               ItemsSource="{Binding Query5}">
                     </DataGrid>
                 </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Запрос 6">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Margin="10">Вывести самую распространенную неисправность в автомобилях указанной марки.</TextBlock>
+                    <ComboBox Width="200" 
+                              Margin="5,5,5,10" 
+                              ItemsSource="{Binding CarBrands}"
+                              SelectedValue="{Binding CarBrandId, Mode=TwoWay}"
+                              SelectedValuePath="Id"
+                              DisplayMemberPath="NameCarBrand"
+                              SelectedIndex="0"
+                              ></ComboBox>
+
+                    <Button Width="100" 
+                            Height="20" 
+                            Margin="5,5,5,10"
+                            Command="{Binding SelectByQuery6Command}">Поиск</Button>
+                    <DataGrid Background="AliceBlue"
+                              ItemsSource="{Binding Query6}">
+                    </DataGrid>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Запрос 7">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Margin="10">Вывести количество рабочих каждой специальности на станции.</TextBlock>
+
+                <DataGrid Background="AliceBlue"
+                              ItemsSource="{Binding Query7}">
+                </DataGrid>
+            </StackPanel>
             </TabItem>
 
 

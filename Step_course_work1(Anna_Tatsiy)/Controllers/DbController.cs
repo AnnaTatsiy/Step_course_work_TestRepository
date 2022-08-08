@@ -7,6 +7,7 @@ using Step_course_work1_Anna_Tatsiy_.Context;
 using Step_course_work1_Anna_Tatsiy_.Models;
 using Step_course_work1_Anna_Tatsiy_.Views;
 using System.Collections;
+using System.Data.SqlClient;
 
 namespace Step_course_work1_Anna_Tatsiy_.Controllers
 {
@@ -19,7 +20,7 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
             //Условие не работает!!!
             // создание и ициализация базы данных
            // if (!Database.Exists("CourseWorkDb")) 
-           //   Database.SetInitializer(new DropCreateDb());
+            // Database.SetInitializer(new DropCreateDb());
           //  else
                 Db = new CodeContext();
 
@@ -90,6 +91,15 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
         {
             c.Id,
             StateNumber = c.CarBrand.NameCarBrand + " ("+ c.StateNumber+")"
+
+        }).ToList();
+
+        //Вывод всех моделей авто
+        public IEnumerable GetCarBrands() => Db.CarBrands.Select(c => new
+        {
+            c.Id,
+            c.NameCarBrand
+
         }).ToList();
 
         //Вывод всех серий паспортов владельцев
@@ -98,6 +108,7 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
             c.Id,
             Passport = c.Client.Person.Surename + " " + c.Client.Person.Name + " " + c.Client.Person.Patronymic +" |"+
             c.Client.Passport
+
         }).ToList();
 
         //Вывод всех неисправностей 
@@ -144,6 +155,16 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
 
         //Запрос 4
         //Фамилия, имя, отчество работника станции, устранявшего данную неисправность в автомобиле данного клиента, и время ее устранения? 
+        public List<Query4View> Query4(int malfunctionId, int clientId) => Db.Repairs.Where(r => r.IdMalfunction == malfunctionId && r.IdClient == clientId).Select(r => new Query4View {
+        
+            Name = r.Worker.Person.Name,
+            Surename = r.Worker.Person.Surename,
+            Patronymic = r.Worker.Person.Patronymic,
+            Specialization = r.Worker.Specialization.NameSpecialization,
+            IsFixed = r.IsFixed,
+            DateOfCorrection = r.DateOfCorrection
+            
+        }).ToList(); 
 
         //Запрос 5
         //Фамилия, имя, отчество клиентов, сдавших в ремонт автомобили с указанным типом неисправности? 
@@ -158,5 +179,27 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
             DateOfBirth = c.Client.DateOfBirth
 
         }).ToList();
+
+        //Запрос 6
+        //Самая распространенная неисправность в автомобилях указанной марки?
+        public List<Query6View> Query6(int carBrandId)
+        {
+            string sql = "select * from Query6Sql(@carBrandId)";
+            SqlParameter param = new SqlParameter("@carBrandId", carBrandId);
+
+            var query6 = Db.Database.SqlQuery<Query6View>(sql, param);
+
+            return query6.ToList();
+        }
+
+        //Запрос 7
+        //Количество рабочих каждой специальности на станции? 
+        public List<Query7View> Query7()
+        {
+            string sql = "Query7Sql";
+            var query7 = Db.Database.SqlQuery<Query7View>(sql);
+
+            return query7.ToList();
+        }
     }
 }
