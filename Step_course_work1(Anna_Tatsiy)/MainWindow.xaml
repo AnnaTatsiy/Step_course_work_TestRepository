@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Step_course_work1_Anna_Tatsiy_"
         xmlns:viewModel="clr-namespace:Step_course_work1_Anna_Tatsiy_.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="MainWindow" Height="500" Width="900"
         WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
@@ -191,6 +191,39 @@
                               ItemsSource="{Binding Query7}">
                 </DataGrid>
             </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Справка">
+                <TabControl>
+                    <TabItem Header="Общие сведения">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Margin="10">Количество незанятых рабочих на текущий момент.</TextBlock>
+                            <TextBlock  Text="{Binding UnoccupiedWorkers}"></TextBlock>
+                            <TextBlock Margin="10">Количестве автомобилей в ремонте на текущий момент</TextBlock>
+                            <TextBlock Text="{Binding CarsRepair}"></TextBlock>
+                            <ComboBox Width="200" 
+                              Margin="5,5,5,10" 
+                              ItemsSource="{Binding Months}"
+                              SelectedValue="{Binding Month, Mode=TwoWay}"
+                              SelectedValuePath="Value"
+                              DisplayMemberPath="Key"
+                              SelectedIndex="0"
+                              ></ComboBox>
+
+                            <Button Width="100" 
+                            Height="20" 
+                            Margin="5,5,5,10"
+                            Command="{Binding SelectByQuery10Command}">Поиск</Button>
+
+                            <TextBlock Margin="10">Общий доход</TextBlock>
+                            <TextBlock Text="{Binding Profit}"></TextBlock>
+                            <DataGrid Background="AliceBlue"
+                              ItemsSource="{Binding Query10}">
+                            </DataGrid>
+
+                        </StackPanel>
+                    </TabItem>
+                </TabControl>
             </TabItem>
 
 

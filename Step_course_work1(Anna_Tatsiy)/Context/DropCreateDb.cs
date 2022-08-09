@@ -474,7 +474,107 @@ namespace Step_course_work1_Anna_Tatsiy_.Context
                 Client = c8,
                 SparePart = sp9
             };
-            context.Repairs.AddRange(new List<Repair> { r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15,r16,r17,r18,r19,r20});
+
+            Repair r21 = new Repair
+            {
+                IdMalfunction = 3,
+                IdWorker = 7,
+                IdCar = 8,
+                IdClient = 1,
+                IdSparePart = 2,
+                DateOfDetection = new DateTime(2022, 8, 9),
+                DateOfCorrection = new DateTime(2022, 8, 15),
+                IsFixed = false,
+                Malfunction = m3,
+                Worker = w7,
+                Car = cr8,
+                Client = c1,
+                SparePart = sp2
+            };
+
+            Repair r22 = new Repair
+            {
+                IdMalfunction = 2,
+                IdWorker = 4,
+                IdCar = 8,
+                IdClient = 2,
+                IdSparePart = 2,
+                DateOfDetection = new DateTime(2022, 8, 6),
+                DateOfCorrection = new DateTime(2022, 8, 19),
+                IsFixed = false,
+                Malfunction = m2,
+                Worker = w4,
+                Car = cr8,
+                Client = c2,
+                SparePart = sp2
+            };
+            Repair r23 = new Repair
+            {
+                IdMalfunction = 3,
+                IdWorker = 1,
+                IdCar = 9,
+                IdClient = 8,
+                IdSparePart = 3,
+                DateOfDetection = new DateTime(2022, 8, 6),
+                DateOfCorrection = new DateTime(2022, 8, 20),
+                IsFixed = false,
+                Malfunction = m3,
+                Worker = w1,
+                Car = cr9,
+                Client = c8,
+                SparePart = sp3
+            };
+            Repair r24 = new Repair
+            {
+                IdMalfunction = 4,
+                IdWorker = 10,
+                IdCar = 10,
+                IdClient = 6,
+                IdSparePart = 4,
+                DateOfDetection = new DateTime(2022, 8, 4),
+                DateOfCorrection = new DateTime(2022, 8, 21),
+                IsFixed = false,
+                Malfunction = m4,
+                Worker = w10,
+                Car = cr10,
+                Client = c6,
+                SparePart = sp4
+            };
+            Repair r25 = new Repair
+            {
+                IdMalfunction = 5,
+                IdWorker = 15,
+                IdCar = 15,
+                IdClient = 5,
+                IdSparePart = 5,
+                DateOfDetection = new DateTime(2022, 8, 9),
+                DateOfCorrection = new DateTime(2022, 8, 16),
+                IsFixed = false,
+                Malfunction = m5,
+                Worker = w15,
+                Car = cr15,
+                Client = c5,
+                SparePart = sp5
+            };
+
+            Repair r26 = new Repair
+            {
+                IdMalfunction = 1,
+                IdWorker = 15,
+                IdCar = 12,
+                IdClient = 5,
+                IdSparePart = 5,
+                DateOfDetection = new DateTime(2022, 8, 9),
+                DateOfCorrection = new DateTime(2022, 8, 20),
+                IsFixed = false,
+                Malfunction = m1,
+                Worker = w15,
+                Car = cr12,
+                Client = c5,
+                SparePart = sp5
+            };
+
+            context.Repairs.AddRange(new List<Repair> { r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15,r16,r17,r18,r19,r20,r21,r22,r23,r24,r25,r26});
 
             context.SaveChanges();
         }

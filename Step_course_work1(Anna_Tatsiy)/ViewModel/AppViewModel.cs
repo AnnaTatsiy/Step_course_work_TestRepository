@@ -8,6 +8,7 @@ using Step_course_work1_Anna_Tatsiy_.Command;
 using Step_course_work1_Anna_Tatsiy_.Controllers;
 using Step_course_work1_Anna_Tatsiy_.Models;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Step_course_work1_Anna_Tatsiy_.ViewModel
 {
@@ -27,6 +28,26 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
         //Id Выбранной модели авто
         public int CarBrandId { get; set; }
 
+        //Кол-во свободных рабочих 
+        public int UnoccupiedWorkers { get; set; }
+        //Кол-во авто в ремонте 
+        public int CarsRepair { get; set; }
+        //Выбранный месяц 
+        public int Month { get; set; }
+        //Доход станции
+        private int _profit;
+
+        public int Profit
+        {
+            get => _profit; 
+            private set
+            { 
+                _profit = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         //коллекция клиенты 
         public ObservableCollection<ClientView> Clients { get; private set; }
         //коллекция рабочие 
@@ -43,6 +64,8 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
         public IEnumerable Malfunctions { get; private set; }
         //коллекция моделей авто 
         public IEnumerable CarBrands { get; private set; }
+
+        public Dictionary<string, int> Months { get; private set; } 
 
         //Запрос 7
         public ObservableCollection<Query7View> Query7 { get; private set; }
@@ -119,6 +142,18 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
             }
         }
 
+        //выборка запроса 10
+        private ObservableCollection<Query10View> _query10;
+        public ObservableCollection<Query10View> Query10
+        {
+            get => _query10;
+            private set
+            {
+                _query10 = value;
+                OnPropertyChanged();
+            }
+        }
+
         public AppViewModel()
         {
             _controller = new DbController();
@@ -132,6 +167,15 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
             Passports = _controller.GetPassports();
             Malfunctions = _controller.GetMalfunctions();
             CarBrands = _controller.GetCarBrands();
+
+            UnoccupiedWorkers = _controller.Query9();
+            CarsRepair = _controller.Query8();
+
+            Months = new Dictionary<string, int>
+            {
+                ["Tекущий месяц"] = DateTime.Now.Month,
+                ["Прошлый месяц"] = DateTime.Now.AddMonths(-1).Month
+            };
         }
 
         //выборка запроса 1
@@ -217,6 +261,22 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
                 Query6 = new ObservableCollection<Query6View>(_controller.Query6(CarBrandId));
             }));
         }
+
+        //выборка запроса 10
+        //Требуется также выдача месячного отчета о работе станции техобслуживания. В отчет должны войти данные о количестве устраненных неисправностей каждого вида и о доходе, полученном станцией
+        private RelayCommand _selectByQuery10Command;
+
+        public RelayCommand SelectByQuery10Command
+        {
+            get =>
+            _selectByQuery10Command ??
+            (_selectByQuery10Command = new RelayCommand(
+            obj => {
+                Profit = _controller.Query11(Month);
+               Query10 = new ObservableCollection<Query10View>(_controller.Query10(Month));           
+            }));
+        }
+
 
         // Реализация INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

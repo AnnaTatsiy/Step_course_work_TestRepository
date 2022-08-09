@@ -19,10 +19,10 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
         {
             //Условие не работает!!!
             // создание и ициализация базы данных
-           // if (!Database.Exists("CourseWorkDb")) 
+            // if (!Database.Exists("CourseWorkDb")) 
             // Database.SetInitializer(new DropCreateDb());
-          //  else
-                Db = new CodeContext();
+            //  else
+            Db = new CodeContext();
 
         }
 
@@ -41,8 +41,8 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
 
         //Таблица рабочие 
         public List<WorkerView> GetWorkers() => Db.Workers.Select(s => new WorkerView
-        { 
-            Id=s.Id,
+        {
+            Id = s.Id,
             Surename = s.Person.Surename,
             Patronymic = s.Person.Patronymic,
             Name = s.Person.Name,
@@ -58,16 +58,16 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
             Id = c.Id,
             CarBrand = c.CarBrand.NameCarBrand,
             Color = c.Color.NameColor,
-            StateNumber =c.StateNumber,
+            StateNumber = c.StateNumber,
             YearOfRelease = c.YearOfRelease,
             Owner = c.Client.Person.Surename + " " + c.Client.Person.Name + " " + c.Client.Person.Patronymic,
             OwnerPassport = c.Client.Passport
-            
+
         }).ToList();
 
         //Таблица ремонты 
         public List<RepairView> GetRepairs() => Db.Repairs.Select(r => new RepairView {
-        
+
             Id = r.Id,
             Malfunction = r.Malfunction.NameMalfunction,
             Worker = r.Worker.Person.Surename + " " + r.Worker.Person.Name + " " + r.Worker.Person.Patronymic,
@@ -79,7 +79,7 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
             Client = r.Client.Person.Surename + " " + r.Client.Person.Name + " " + r.Client.Person.Patronymic,
             Passport = r.Client.Passport,
             IsFixed = r.IsFixed,
-            Price = r.Malfunction.Price+r.SparePart.Price
+            Price = r.Malfunction.Price + r.SparePart.Price
 
         }).ToList();
 
@@ -90,7 +90,7 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
         public IEnumerable GetStateNumbers() => Db.Cars.Select(c => new
         {
             c.Id,
-            StateNumber = c.CarBrand.NameCarBrand + " ("+ c.StateNumber+")"
+            StateNumber = c.CarBrand.NameCarBrand + " (" + c.StateNumber + ")"
 
         }).ToList();
 
@@ -106,17 +106,17 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
         public IEnumerable GetPassports() => Db.Cars.Select(c => new
         {
             c.Id,
-            Passport = c.Client.Person.Surename + " " + c.Client.Person.Name + " " + c.Client.Person.Patronymic +" |"+
+            Passport = c.Client.Person.Surename + " " + c.Client.Person.Name + " " + c.Client.Person.Patronymic + " |" +
             c.Client.Passport
 
         }).ToList();
 
         //Вывод всех неисправностей 
         public IEnumerable GetMalfunctions() => Db.Malfunctions.Select(m => new {
-        
+
             m.Id,
             Malfunction = m.NameMalfunction
-        
+
         }).ToList();
 
         //--------------------------------------------------------------------------------------------------------
@@ -201,5 +201,49 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
 
             return query7.ToList();
         }
+
+        //Запрос 8
+        //Необходимо предусмотреть возможность выдачи справки о количестве автомобилей в ремонте на текущий момент
+        public int Query8()
+        {
+            string sql1 = "Query8Sql";
+            string sql2 = "select * from Cars";
+
+            var query8 = Db.Database.SqlQuery<int>(sql1);
+            var query = Db.Database.SqlQuery<Car>(sql2);
+
+            return query.Count() - query8.Count();
+        }
+
+        //Запрос 9
+        //количестве незанятых рабочих на текущий момент.  
+        public int Query9()
+        {
+            string sql1 = "Query9Sql";
+            string sql2 = "select * from Workers";
+
+            var query9 = Db.Database.SqlQuery<int>(sql1);
+            var query = Db.Database.SqlQuery<Worker>(sql2);
+
+            return query.Count() - query9.Count();
+        }
+
+        //Запрос 10
+        //Требуется также выдача месячного отчета о работе станции техобслуживания.В отчет должны войти данные о количестве устраненных неисправностей каждого вида и о доходе, полученном станцией
+        public List<Query10View> Query10(int month)
+        {
+            string sql = "Query10Sql @month";
+            SqlParameter param = new SqlParameter("@month", month);
+
+            var query10 = Db.Database.SqlQuery<Query10View>(sql,param);
+
+            return query10.ToList();
+        }
+
+        //Запрос 11
+        //Найти прибыль за месяц 
+        public int Query11(int month) => Query10(month).Sum(q => q.Profit);
+
+
     }
 }

@@ -69,6 +69,7 @@
     <Compile Include="ViewModel\AppViewModel.cs" />
     <Compile Include="Views\CarView.cs" />
     <Compile Include="Views\ClientView.cs" />
+    <Compile Include="Views\Query10View.cs" />
     <Compile Include="Views\Query4View.cs" />
     <Compile Include="Views\Query6View.cs" />
     <Compile Include="Views\Query7View.cs" />
