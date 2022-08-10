@@ -20,11 +20,31 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
             //Условие не работает!!!
             // создание и ициализация базы данных
             // if (!Database.Exists("CourseWorkDb")) 
-            // Database.SetInitializer(new DropCreateDb());
+             //Database.SetInitializer(new DropCreateDb());
             //  else
             Db = new CodeContext();
-
+            CreateArchive();
         }
+
+        //Создание архива 
+        private void CreateArchive()
+        {
+            string sql = "CreateArchiveSql";
+            var createArchive = Db.Database.ExecuteSqlCommand(sql);
+
+            createArchive.ToString();
+        }
+
+        //Архив 
+        public List<RepairView> GetArchive()
+        {
+
+            string sql = " select * from ViewArchive";
+            var getArchive = Db.Database.SqlQuery<RepairView>(sql);
+
+            return getArchive.ToList();
+        }
+
 
         //Таблица клиенты 
         public List<ClientView> GetClients() => Db.Clients.Select(c => new ClientView
@@ -119,6 +139,13 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
 
         }).ToList();
 
+        public IEnumerable GetSpecializations() => Db.Specializations.Select(s => new {
+        
+            s.Id,
+            Specialization = s.NameSpecialization   
+
+        }).ToList();
+
         //--------------------------------------------------------------------------------------------------------
 
         //Запрос 1
@@ -151,7 +178,20 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
 
         //Запрос 3
         //Перечень устраненных неисправностей в автомобиле данного владельца? 
-        public List<Malfunction> Query3(int id) => Db.Repairs.Where(r => r.Car.Client.Id == id && r.IsFixed == true).Select(r => r.Malfunction).ToList();
+        public List<Malfunction> Query3(int id)
+        {
+            var malfunction = new List<Malfunction>();
+            malfunction.AddRange(Db.Repairs.Where(r => r.Car.Client.Id == id && r.IsFixed == true).Select(r => r.Malfunction).ToList());
+            /*
+            string sql = "Query3Sql @id";
+            SqlParameter param = new SqlParameter("@id", id);
+
+            var query = Db.Database.SqlQuery<Malfunction>(sql, param);
+
+            malfunction.AddRange(query.ToList()); */
+
+            return malfunction;
+        }
 
         //Запрос 4
         //Фамилия, имя, отчество работника станции, устранявшего данную неисправность в автомобиле данного клиента, и время ее устранения? 
@@ -244,6 +284,31 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
         //Найти прибыль за месяц 
         public int Query11(int month) => Query10(month).Sum(q => q.Profit);
 
+        //Запрос 13 
+        //Добавить работника
+        public void AddWorker(string name, string surename , string patronymic, int specializationId, int workersСategory, int experience)
+        {
+            Db.Persons.Add(new Person { Name = name, Surename = surename, Patronymic = patronymic });
 
+            Person person = Db.Persons.AsEnumerable().Last();
+            int idPerson = person.Id;
+            Specialization sp = Db.Specializations.Where(s=> s.Id == specializationId).FirstOrDefault();
+
+            Db.Workers.Add(new Worker { IdPerson = idPerson, Person = person, IdSpecialization = specializationId, Specialization = sp, Experience = experience, WorkersСategory = workersСategory});
+
+            Db.SaveChanges();
+        }
+
+        //Запрос 14 
+        //Удалить рабочего 
+        public void DeleteWorker(int id)
+        {
+            string sql = "DropWorkerSql @id";
+            SqlParameter param = new SqlParameter("@id", id);
+
+            var query = Db.Database.ExecuteSqlCommand(sql, param);
+
+            query.ToString();
+        }
     }
 }

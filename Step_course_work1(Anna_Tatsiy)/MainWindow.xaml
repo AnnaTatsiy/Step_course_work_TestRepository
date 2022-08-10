@@ -23,9 +23,23 @@
             </TabItem>
 
             <TabItem Header="Рабочие">
-                <DataGrid Background="AliceBlue" 
-                     ItemsSource="{Binding Workers}">
+                <StackPanel Orientation="Vertical">
+                    <ToolBar Height="30">
+                        <Button Height="25" Width="25"
+                                Click="ViewAddWindow_Click">
+                            <Image Source="/Images/add.png"></Image>
+                        </Button>
+                        <Button Height="25" Width="25"
+                            Command="{Binding DeleteWorkerCommand}">
+                            <Image Source="/Images/delete.png"></Image>
+                        </Button>
+                    </ToolBar>
+                    <DataGrid Background="AliceBlue" 
+                     ItemsSource="{Binding Workers}"
+                     SelectionMode="Single"
+                     SelectedIndex="{Binding WorkerId}">
                 </DataGrid>
+                </StackPanel>
             </TabItem>
 
             <TabItem Header="Авто">
@@ -46,7 +60,7 @@
                     <ComboBox Width="200" 
                               Margin="5,5,5,10" 
                               ItemsSource="{Binding StateNumbers}"
-                              SelectedValue="{Binding StateNumber, Mode=TwoWay}"
+                              SelectedValue="{Binding StateNumberId, Mode=TwoWay}"
                               SelectedValuePath="Id"
                               DisplayMemberPath="StateNumber"
                               SelectedIndex="0"
@@ -68,7 +82,7 @@
                     <ComboBox Width="200" 
                               Margin="5,5,5,10" 
                               ItemsSource="{Binding Passports}"
-                              SelectedValue="{Binding Passport, Mode=TwoWay}"
+                              SelectedValue="{Binding PassportId, Mode=TwoWay}"
                               SelectedValuePath="Id"
                               DisplayMemberPath="Passport"
                               SelectedIndex="0"
@@ -90,7 +104,7 @@
                     <ComboBox Width="200" 
                               Margin="5,5,5,10" 
                               ItemsSource="{Binding Passports}"
-                              SelectedValue="{Binding Passport, Mode=TwoWay}"
+                              SelectedValue="{Binding PassportId, Mode=TwoWay}"
                               SelectedValuePath="Id"
                               DisplayMemberPath="Passport"
                               SelectedIndex="0"
@@ -123,7 +137,7 @@
                     <ComboBox Width="200" 
                               Margin="5,5,5,10" 
                               ItemsSource="{Binding Passports}"
-                              SelectedValue="{Binding Passport, Mode=TwoWay}"
+                              SelectedValue="{Binding PassportId, Mode=TwoWay}"
                               SelectedValuePath="Id"
                               DisplayMemberPath="Passport"
                               SelectedIndex="0"
@@ -223,7 +237,15 @@
 
                         </StackPanel>
                     </TabItem>
-                </TabControl>
+
+                    <TabItem Header="Архив">
+
+                        <DataGrid Background="AliceBlue"
+                              ItemsSource="{Binding Archive}">
+                        </DataGrid>
+                    </TabItem>
+                            
+                     </TabControl>
             </TabItem>
 
 

@@ -9,6 +9,7 @@ using Step_course_work1_Anna_Tatsiy_.Controllers;
 using Step_course_work1_Anna_Tatsiy_.Models;
 using System.Collections;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace Step_course_work1_Anna_Tatsiy_.ViewModel
 {
@@ -17,10 +18,10 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
         DbController _controller;
 
         //Id Выбранного гос номер для запроса 1
-        public int StateNumber { get; set; }
+        public int StateNumberId { get; set; }
 
-        //Id Серии паспорта для запроса 2
-        public int Passport { get; set; }
+        //Id выбранного клиента
+        public int PassportId { get; set; }
 
         //Id Выбранной неисправности
         public int MalfunctionId { get; set; }
@@ -30,10 +31,13 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
 
         //Кол-во свободных рабочих 
         public int UnoccupiedWorkers { get; set; }
+
         //Кол-во авто в ремонте 
         public int CarsRepair { get; set; }
+
         //Выбранный месяц 
         public int Month { get; set; }
+
         //Доход станции
         private int _profit;
 
@@ -47,6 +51,16 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
             }
         }
 
+        //Id выбранного рабочего
+        public int WorkerId { get; set; }
+
+        //---------------------------------------------------------------------------------
+
+        //добавление рабочего 
+        public Worker AddWorker { get; set; }
+        public Person Person { get; set; }
+
+        //---------------------------------------------------------------------------------
 
         //коллекция клиенты 
         public ObservableCollection<ClientView> Clients { get; private set; }
@@ -56,6 +70,10 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
         public ObservableCollection<CarView> Cars { get; private set; }
         //коллекция ремонтов 
         public ObservableCollection<RepairView> Repairs { get; private set; }
+
+        //Архив 
+        public ObservableCollection<RepairView> Archive { get; private set; }
+
         //коллекция гос номеров 
         public IEnumerable StateNumbers { get; private set; }
         //коллекция серий паспортов 
@@ -64,6 +82,8 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
         public IEnumerable Malfunctions { get; private set; }
         //коллекция моделей авто 
         public IEnumerable CarBrands { get; private set; }
+        //коллекция специальностей 
+        public IEnumerable Specializations { get; private set; }
 
         public Dictionary<string, int> Months { get; private set; } 
 
@@ -162,11 +182,13 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
             Cars = new ObservableCollection<CarView>(_controller.GetCars());
             Repairs = new ObservableCollection<RepairView>(_controller.GetRepairs());
             Query7 = new ObservableCollection<Query7View>(_controller.Query7());
+            Archive = new ObservableCollection<RepairView>(_controller.GetArchive());
 
             StateNumbers = _controller.GetStateNumbers();
             Passports = _controller.GetPassports();
             Malfunctions = _controller.GetMalfunctions();
             CarBrands = _controller.GetCarBrands();
+            Specializations = _controller.GetSpecializations();
 
             UnoccupiedWorkers = _controller.Query9();
             CarsRepair = _controller.Query8();
@@ -176,6 +198,9 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
                 ["Tекущий месяц"] = DateTime.Now.Month,
                 ["Прошлый месяц"] = DateTime.Now.AddMonths(-1).Month
             };
+
+            AddWorker = new Worker();
+            Person = new Person();
         }
 
         //выборка запроса 1
@@ -188,7 +213,7 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
             _selectByQuery1Command ??
             (_selectByQuery1Command = new RelayCommand(
             obj => {
-                Query1 = new ObservableCollection<ClientView>(_controller.Query1(StateNumber));
+                Query1 = new ObservableCollection<ClientView>(_controller.Query1(StateNumberId));
             }));
         }
 
@@ -202,7 +227,7 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
             _selectByQuery2Command ??
             (_selectByQuery2Command = new RelayCommand(
             obj => {
-                Query2 = new ObservableCollection<CarView>(_controller.Query2(Passport));
+                Query2 = new ObservableCollection<CarView>(_controller.Query2(PassportId));
             }));
         }
 
@@ -216,7 +241,7 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
             _selectByQuery3Command ??
             (_selectByQuery3Command = new RelayCommand(
             obj => {
-                Query3 = new ObservableCollection<Malfunction>(_controller.Query3(Passport));
+                Query3 = new ObservableCollection<Malfunction>(_controller.Query3(PassportId));
             }));
         }
 
@@ -230,7 +255,7 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
             _selectByQuery4Command ??
             (_selectByQuery4Command = new RelayCommand(
             obj => {
-                Query4 = new ObservableCollection<Query4View>(_controller.Query4(MalfunctionId,Passport));
+                Query4 = new ObservableCollection<Query4View>(_controller.Query4(MalfunctionId,PassportId));
             }));
         }
 
@@ -274,6 +299,37 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
             obj => {
                 Profit = _controller.Query11(Month);
                Query10 = new ObservableCollection<Query10View>(_controller.Query10(Month));           
+            }));
+        }
+
+        //Добавить рабочего 
+        private RelayCommand _addWorkerCommand;
+
+        public RelayCommand AddWorkerCommand
+        {
+            get =>
+            _addWorkerCommand ??
+            (_addWorkerCommand = new RelayCommand(
+            obj => {
+                _controller.AddWorker(Person.Name,Person.Surename,Person.Patronymic,(int)AddWorker.IdSpecialization,AddWorker.WorkersСategory,AddWorker.Experience);
+            }));
+        }
+
+        //Удалить рабочего 
+        private RelayCommand _deleteWorkerCommand;
+
+        public RelayCommand DeleteWorkerCommand
+        {
+            get =>
+            _deleteWorkerCommand ??
+            (_deleteWorkerCommand = new RelayCommand(
+            obj => {
+                try
+                {
+                    WorkerId++;
+                    _controller.DeleteWorker(WorkerId);
+                }
+                catch { MessageBox.Show("Нельзя уволить работника, который ремонтирует авто", "Ошибка",MessageBoxButton.OK,MessageBoxImage.Error); }
             }));
         }
 

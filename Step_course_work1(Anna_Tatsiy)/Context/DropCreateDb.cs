@@ -574,7 +574,41 @@ namespace Step_course_work1_Anna_Tatsiy_.Context
                 SparePart = sp5
             };
 
-            context.Repairs.AddRange(new List<Repair> { r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15,r16,r17,r18,r19,r20,r21,r22,r23,r24,r25,r26});
+            Repair r27 = new Repair
+            {
+                IdMalfunction = 5,
+                IdWorker = 15,
+                IdCar = 15,
+                IdClient = 5,
+                IdSparePart = 5,
+                DateOfDetection = new DateTime(2022, 8, 10),
+                DateOfCorrection = new DateTime(2022, 8, 26),
+                IsFixed = true,
+                Malfunction = m5,
+                Worker = w15,
+                Car = cr15,
+                Client = c5,
+                SparePart = sp5
+            };
+
+            Repair r28 = new Repair
+            {
+                IdMalfunction = 1,
+                IdWorker = 15,
+                IdCar = 10,
+                IdClient = 1,
+                IdSparePart = 5,
+                DateOfDetection = new DateTime(2022, 8, 10),
+                DateOfCorrection = new DateTime(2022, 8, 29),
+                IsFixed = true,
+                Malfunction = m1,
+                Worker = w15,
+                Car = cr10,
+                Client = c1,
+                SparePart = sp5
+            };
+
+            context.Repairs.AddRange(new List<Repair> { r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12,r13,r14,r15,r16,r17,r18,r19,r20,r21,r22,r23,r24,r25,r26,r27,r28});
 
             context.SaveChanges();
         }
