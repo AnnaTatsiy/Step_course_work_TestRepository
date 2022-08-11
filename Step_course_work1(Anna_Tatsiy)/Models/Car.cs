@@ -14,14 +14,11 @@ namespace Step_course_work1_Anna_Tatsiy_.Models
 
         public string StateNumber { get; set; }//гос номер 
 
-        public int? IdCarBrand { get; set; }//Id модели
-        public CarBrand CarBrand { get; set; }
+        public CarBrand CarBrand { get; set; }//Id модели
 
-        public int? IdColor { get; set; }//Id цвета
-        public Color Color { get; set; }
+        public Color Color { get; set; }//Id цвета
 
-        public int? IdClient { get; set; }//Id Владельца 
-        public Client Client { get; set; }
+        public Client Client { get; set; }//Id Владельца 
 
     }
 }

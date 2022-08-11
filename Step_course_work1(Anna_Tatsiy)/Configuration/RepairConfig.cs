@@ -9,20 +9,6 @@ namespace Step_course_work1_Anna_Tatsiy_.Configuration
         {
             HasKey(r => r.Id);
 
-            Property(r => r.IdMalfunction)
-                .IsRequired();
-
-            Property(r => r.IdWorker)
-                .IsRequired();
-
-            Property(r => r.IdCar)
-                .IsRequired();
-
-            Property(r => r.IdClient)
-                .IsRequired();
-
-            Property(r => r.IdSparePart);
-
             Property(r => r.IsFixed)
                 .IsRequired();
 

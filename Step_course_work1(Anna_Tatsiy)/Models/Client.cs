@@ -13,8 +13,7 @@ namespace Step_course_work1_Anna_Tatsiy_.Models
         public string Registration { get; set; }//Прописка 
         public DateTime DateOfBirth { get; set; }//Дата рождения
 
-        public int? IdPerson { get; set; }//Id персоны 
-        public Person Person { get; set; }
+        public Person Person { get; set; }//Id персоны 
 
     }
 }

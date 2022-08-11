@@ -9,12 +9,6 @@ namespace Step_course_work1_Anna_Tatsiy_.Configuration
         {
             HasKey(c => c.Id);
 
-            Property(c => c.IdCarBrand)
-                .IsRequired();
-
-            Property(c => c.IdColor)
-                .IsRequired();
-
             Property(c => c.YearOfRelease)
                 .IsRequired();
 
@@ -23,8 +17,6 @@ namespace Step_course_work1_Anna_Tatsiy_.Configuration
                 .HasMaxLength(20)
                 .IsVariableLength();
 
-            Property(c => c.IdClient)
-                .IsRequired();
         }
     }
 }

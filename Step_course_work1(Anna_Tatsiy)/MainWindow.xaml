@@ -136,7 +136,7 @@
 
                     <ComboBox Width="200" 
                               Margin="5,5,5,10" 
-                              ItemsSource="{Binding Passports}"
+                              ItemsSource="{Binding ClientsPassports}"
                               SelectedValue="{Binding PassportId, Mode=TwoWay}"
                               SelectedValuePath="Id"
                               DisplayMemberPath="Passport"

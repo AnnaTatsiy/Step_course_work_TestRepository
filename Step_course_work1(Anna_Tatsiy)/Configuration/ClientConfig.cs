@@ -14,9 +14,6 @@ namespace Step_course_work1_Anna_Tatsiy_.Configuration
                 .HasMaxLength(11)
                 .IsVariableLength();
 
-            Property(c => c.IdPerson)
-                .IsRequired();
-
             Property(c => c.DateOfBirth)
                 .IsRequired();
 

@@ -15,17 +15,17 @@ create proc CreateArchiveSql
 		else
 			begin
 			set identity_insert Archive on;
-				insert into Archive(Id,IdMalfunction,IdWorker,IdCar,DateOfDetection,DateOfCorrection,IdClient,IsFixed,IdSparePart) 
+				insert into Archive(Id,Malfunction_Id,Worker_Id,Car_Id,DateOfDetection,DateOfCorrection,Client_Id,IsFixed,SparePart_Id) 
 				select 
 					   Id,
-					   IdMalfunction,
-					   IdWorker,
-					   IdCar,
+					   Malfunction_Id,
+					   Worker_Id,
+					   Car_Id,
 					   DateOfDetection,
 					   DateOfCorrection,
-					   IdClient,
+					   Client_Id,
 					   IsFixed,
-					   IdSparePart
+					   SparePart_Id
 				from Repairs
 				where Repairs.DateOfCorrection < CONVERT (date, GETDATE());
 			set identity_insert Archive off;
@@ -51,8 +51,8 @@ create view ViewWorkers as
 	Workers.WorkersСategory,
 	Workers.Experience
 
- from Workers join People on Workers.IdPerson = People.Id
-			  join Specializations on Workers.IdSpecialization = Specializations.Id
+ from Workers join People on Workers.Person_Id = People.Id
+			  join Specializations on Workers.Specialization_Id = Specializations.Id
  go
 
  select * from ViewWorkers
@@ -69,7 +69,7 @@ create view ViewClient as
 	Clients.Registration,
 	Clients.DateOfBirth
 
- from Clients join People on Clients.IdPerson = People.Id		  
+ from Clients join People on Clients.Person_Id = People.Id		  
  go
 
  select * from ViewClient
@@ -94,11 +94,11 @@ create view ViewArchive as
 	Malfunctions.Price + SpareParts.Price as [Price]
 	
 
- from Archive join Malfunctions on Archive.IdMalfunction = Malfunctions.Id
-			  join ViewWorkers on Archive.IdWorker = ViewWorkers.Id
-			  join (Cars join CarBrands on Cars.IdCarBrand = CarBrands.Id) on Cars.Id = Archive.IdCar
-			  join ViewClient on Archive.IdClient = ViewClient.Id
-			  join SpareParts on Archive.IdSparePart = SpareParts.Id
+ from Archive join Malfunctions on Archive.Malfunction_Id = Malfunctions.Id
+			  join ViewWorkers on Archive.Worker_Id = ViewWorkers.Id
+			  join (Cars join CarBrands on Cars.CarBrand_Id = CarBrands.Id) on Cars.Id = Archive.Car_Id
+			  join ViewClient on Archive.Client_Id = ViewClient.Id
+			  join SpareParts on Archive.SparePart_Id = SpareParts.Id
  go
 
  select * from ViewArchive
@@ -116,15 +116,30 @@ as
 		top (select COUNT(*) from Repairs)
 			Malfunctions.NameMalfunction,
 			Count(Malfunctions.Id) as [CountMalfunctions]
-		from Repairs join Malfunctions on Repairs.IdMalfunction = Malfunctions.Id
-					 join (Cars join CarBrands on Cars.IdCarBrand = CarBrands.Id) on Cars.Id = Repairs.IdCar 
+		from Repairs join Malfunctions on Repairs.Malfunction_Id = Malfunctions.Id
+					 join (Cars join CarBrands on Cars.CarBrand_Id = CarBrands.Id) on Cars.Id = Repairs.Car_Id
 		where CarBrands.Id = @CarBrandId
-	group by Malfunctions.NameMalfunction
+
+	group by Malfunctions.NameMalfunction,CarBrands.NameCarBrand
 	order by CountMalfunctions
+
+		union all select 
+		
+		top (select COUNT(*) from Repairs)
+			Malfunctions.NameMalfunction,
+			Count(Malfunctions.Id) as [CountMalfunctions]
+		from Archive join Malfunctions on Archive.Malfunction_Id = Malfunctions.Id
+					 join (Cars join CarBrands on Cars.CarBrand_Id = CarBrands.Id) on Cars.Id = Archive.Car_Id
+		where CarBrands.Id = @CarBrandId
+
+	group by Malfunctions.NameMalfunction
+	order by CountMalfunctions 
 go
 
-select * from Query6Sql(6);
+select * from Query6Sql(8);
 go
+
+select * from Repairs
 
 --Запрос 7
 --Количество рабочих каждой специальности на станции? 
@@ -146,43 +161,6 @@ go
 exec Query7Sql
 go  
 
---Запрос 8
---Необходимо предусмотреть возможность выдачи справки о количестве автомобилей в ремонте на текущий момент
-drop proc if exists Query8Sql;
-go
-
-create proc Query8Sql
-	as
-		begin 
-			select DISTINCT
-				Repairs.IdCar
-			from Repairs 
-		where Repairs.IsFixed = 0 and Repairs.DateOfCorrection > CONVERT (date, GETDATE());
-	end;
-go
-
-exec Query8Sql
-go  
-
---Запрос 9
---количестве незанятых рабочих на текущий момент. --> кол-во раб, которые заняты 
-
-drop proc if exists Query9Sql;
-go
-
-create proc Query9Sql
-	as
-		begin 
-			select DISTINCT
-				Repairs.IdWorker 
-			from Repairs 
-		where Repairs.IsFixed = 0 and Repairs.DateOfCorrection > CONVERT (date, GETDATE());
-	end;
-go
-
-exec Query9Sql
-go  
-
 --Запрос 10
 --Требуется также выдача месячного отчета о работе станции техобслуживания. В отчет должны войти данные о количестве устраненных неисправностей каждого вида и о доходе, полученном станцией
 drop proc if exists Query10Sql;
@@ -195,10 +173,20 @@ create proc Query10Sql
 			select 
 				Malfunctions.Id,
 				Malfunctions.NameMalfunction,
-				Count(Repairs.IdMalfunction) as [Count],
-				Malfunctions.Price*Count(Repairs.IdMalfunction) as  [Profit]
-			from Malfunctions left join Repairs on Malfunctions.Id = Repairs.IdMalfunction
+				Count(Repairs.Malfunction_Id) as [Count],
+				Malfunctions.Price*Count(Repairs.Malfunction_Id) as  [Profit]
+			from Malfunctions left join Repairs on Malfunctions.Id = Repairs.Malfunction_Id
 			where Repairs.IsFixed = 1 and MONTH(Repairs.DateOfCorrection) = @month
+			group by Malfunctions.Id,Malfunctions.NameMalfunction,Malfunctions.Price
+
+			union select 
+
+				Malfunctions.Id,
+				Malfunctions.NameMalfunction,
+				Count(Archive.Malfunction_Id) as [Count],
+				Malfunctions.Price*Count(Archive.Malfunction_Id) as  [Profit]
+			from Malfunctions left join Archive on Malfunctions.Id = Archive.Malfunction_Id
+			where Archive.IsFixed = 1 and MONTH(Archive.DateOfCorrection) = @month
 			group by Malfunctions.Id,Malfunctions.NameMalfunction,Malfunctions.Price
 	end;
 go
@@ -219,11 +207,11 @@ create proc DropWorkerSql
 	end;
 go
 
-exec DropWorkerSql 1
+exec DropWorkerSql 17
 go
 
 --Запрос 3
---Перечень устраненных неисправностей в автомобиле данного владельца из архива 
+--Перечень устраненных неисправностей в автомобиле данного владельца 
 drop proc if exists Query3Sql;
 go
 
@@ -235,12 +223,106 @@ create proc Query3Sql
 				Malfunctions.Id,
 				Malfunctions.NameMalfunction,
 				Malfunctions.Price
-			from Archive join Malfunctions on Archive.IdMalfunction = Malfunctions.Id
-			where Archive.IsFixed = 1 and Archive.IdClient = @id
+			from Archive join Malfunctions on Archive.Malfunction_Id = Malfunctions.Id
+						 join Cars on Archive.Car_Id = Cars.Id
+			where Archive.IsFixed = 1 and Cars.Client_Id = @id
+
+			union all select
+
+				Malfunctions.Id,
+				Malfunctions.NameMalfunction,
+				Malfunctions.Price
+			from Repairs join Malfunctions on Repairs.Malfunction_Id = Malfunctions.Id
+						 join Cars on Repairs.Car_Id = Cars.Id
+			where Repairs.IsFixed = 1 and Cars.Client_Id = @id
 	end;
 go
 
 exec Query3Sql 1
+go
+
+--Запрос 4
+--Фамилия, имя, отчество работника станции, устранявшего данную неисправность в автомобиле данного клиента, и время ее устранения
+
+drop proc if exists Query4Sql;
+go
+
+create proc Query4Sql
+	@idClient int,
+	@idMalfunctions int
+	as 
+		begin
+			select distinct
+					People.[Name],
+					People.Surename,
+					People.Patronymic,
+					ViewWorkers.Specialization,
+					Archive.IsFixed,
+					Archive.DateOfCorrection
+
+			from Archive join Malfunctions on Archive.Malfunction_Id = Malfunctions.Id
+						 join ViewWorkers on Archive.Worker_Id = ViewWorkers.Id
+						 join (Workers join People on Workers.Person_Id = People.Id) on Workers.Id = Archive.Worker_Id
+			where Archive.Malfunction_Id = @idMalfunctions and Archive.Client_Id = @idClient
+
+			union select distinct
+
+			People.[Name],
+					People.Surename,
+					People.Patronymic,
+					ViewWorkers.Specialization,
+					Repairs.IsFixed,
+					Repairs.DateOfCorrection
+
+			from Repairs join Malfunctions on Repairs.Malfunction_Id = Malfunctions.Id
+						 join ViewWorkers on Repairs.Worker_Id = ViewWorkers.Id
+						 join (Workers join People on Workers.Person_Id = People.Id) on Workers.Id = Repairs.Worker_Id
+			where Repairs.Malfunction_Id = @idMalfunctions and Repairs.Client_Id = @idClient
+	end;
+go
+
+exec Query4Sql 1, 1
+go
+
+--Запрос 5
+--Фамилия, имя, отчество клиентов, сдавших в ремонт автомобили с указанным типом неисправности? 
+drop proc if exists Query5Sql;
+go
+
+create proc Query5Sql
+	@idMalfunctions int
+	as 
+		begin 
+			select distinct
+					Clients.Id,
+					People.[Name],
+					People.Surename,
+					People.Patronymic,
+					Clients.Passport,
+					Clients.Registration,
+					Clients.DateOfBirth
+
+			from Archive join Malfunctions on Archive.Malfunction_Id = Malfunctions.Id
+						 join (Clients join People on Clients.Person_Id = People.Id) on Clients.Id = Archive.Client_Id
+			where Archive.Malfunction_Id = @idMalfunctions 
+
+			union select distinct
+
+					Clients.Id,
+					People.[Name],
+					People.Surename,
+					People.Patronymic,
+					Clients.Passport,
+					Clients.Registration,
+					Clients.DateOfBirth
+
+			from Repairs join Malfunctions on Repairs.Malfunction_Id = Malfunctions.Id
+						 join (Clients join People on Clients.Person_Id = People.Id) on Clients.Id = Repairs.Client_Id
+			where Repairs.Malfunction_Id = @idMalfunctions 
+	end;
+go
+
+exec Query5Sql 1 
 go
 
 --Запрос 12

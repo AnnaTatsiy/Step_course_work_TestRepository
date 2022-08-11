@@ -59,6 +59,7 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
         //добавление рабочего 
         public Worker AddWorker { get; set; }
         public Person Person { get; set; }
+        public int SpecializationId { get; set; }
 
         //---------------------------------------------------------------------------------
 
@@ -76,7 +77,7 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
 
         //коллекция гос номеров 
         public IEnumerable StateNumbers { get; private set; }
-        //коллекция серий паспортов 
+        //коллекция серий паспортов владельцев
         public IEnumerable Passports { get; private set; }
         //коллекция неисправностей
         public IEnumerable Malfunctions { get; private set; }
@@ -84,6 +85,8 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
         public IEnumerable CarBrands { get; private set; }
         //коллекция специальностей 
         public IEnumerable Specializations { get; private set; }
+        //коллекция серий паспортов клиентов
+        public IEnumerable ClientsPassports { get; private set; }
 
         public Dictionary<string, int> Months { get; private set; } 
 
@@ -189,6 +192,7 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
             Malfunctions = _controller.GetMalfunctions();
             CarBrands = _controller.GetCarBrands();
             Specializations = _controller.GetSpecializations();
+            ClientsPassports = _controller.GetClientsPassports();
 
             UnoccupiedWorkers = _controller.Query9();
             CarsRepair = _controller.Query8();
@@ -199,8 +203,9 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
                 ["Прошлый месяц"] = DateTime.Now.AddMonths(-1).Month
             };
 
-            AddWorker = new Worker();
             Person = new Person();
+            AddWorker = new Worker();
+
         }
 
         //выборка запроса 1
@@ -311,7 +316,7 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
             _addWorkerCommand ??
             (_addWorkerCommand = new RelayCommand(
             obj => {
-                _controller.AddWorker(Person.Name,Person.Surename,Person.Patronymic,(int)AddWorker.IdSpecialization,AddWorker.WorkersСategory,AddWorker.Experience);
+                _controller.AddWorker(Person.Name,Person.Surename,Person.Patronymic,SpecializationId,AddWorker.WorkersСategory,AddWorker.Experience);
             }));
         }
 

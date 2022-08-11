@@ -13,10 +13,8 @@ namespace Step_course_work1_Anna_Tatsiy_.Models
         public int WorkersСategory { get; set; }//Разряд рабочего
         public int Experience { get; set; }//Стаж
 
-        public int? IdPerson { get; set; }//Id персоны 
-        public Person Person { get; set; }
+        public Person Person { get; set; }//Id персоны 
 
-        public int? IdSpecialization { get; set; }//Id специальности 
-        public Specialization Specialization { get; set; }
+        public Specialization Specialization { get; set; }//Id специальности 
     }
 }

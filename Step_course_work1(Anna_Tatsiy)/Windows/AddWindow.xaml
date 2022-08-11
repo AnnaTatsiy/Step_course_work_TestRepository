@@ -28,7 +28,7 @@
         <TextBlock Margin="20" FontSize="14">Выберите специальность</TextBlock>
         <ComboBox Margin="20,-15,20,0" FontSize="14"
                   ItemsSource="{Binding Specializations}"
-                  SelectedValue="{Binding AddWorker.IdSpecialization, Mode=TwoWay}"
+                  SelectedValue="{Binding SpecializationId, Mode=TwoWay}"
                   SelectedValuePath="Id"
                   DisplayMemberPath="Specialization"
                   SelectedIndex="0"></ComboBox>

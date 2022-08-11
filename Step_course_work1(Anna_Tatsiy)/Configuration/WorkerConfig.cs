@@ -9,12 +9,6 @@ namespace Step_course_work1_Anna_Tatsiy_.Configuration
         {
             HasKey(w => w.Id);
 
-            Property(w => w.IdPerson)
-                .IsRequired();
-
-            Property(w => w.IdSpecialization)
-                .IsRequired();
-
             Property(w => w.Experience)
                 .IsRequired();
 

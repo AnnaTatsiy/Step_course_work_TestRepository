@@ -20,7 +20,7 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
             //Условие не работает!!!
             // создание и ициализация базы данных
             // if (!Database.Exists("CourseWorkDb")) 
-             //Database.SetInitializer(new DropCreateDb());
+            //Database.SetInitializer(new DropCreateDb());
             //  else
             Db = new CodeContext();
             CreateArchive();
@@ -125,10 +125,18 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
         //Вывод всех серий паспортов владельцев
         public IEnumerable GetPassports() => Db.Cars.Select(c => new
         {
-            c.Id,
+            c.Client.Id,
             Passport = c.Client.Person.Surename + " " + c.Client.Person.Name + " " + c.Client.Person.Patronymic + " |" +
             c.Client.Passport
 
+        }).Distinct().ToList();
+
+        //Вывод всех клиентов 
+        public IEnumerable GetClientsPassports() => Db.Clients.Select(c => new
+        {
+            c.Id,
+            Passport = c.Person.Surename + " " + c.Person.Name + " " + c.Person.Patronymic + " |" +
+            c.Passport
         }).ToList();
 
         //Вывод всех неисправностей 
@@ -180,45 +188,38 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
         //Перечень устраненных неисправностей в автомобиле данного владельца? 
         public List<Malfunction> Query3(int id)
         {
-            var malfunction = new List<Malfunction>();
-            malfunction.AddRange(Db.Repairs.Where(r => r.Car.Client.Id == id && r.IsFixed == true).Select(r => r.Malfunction).ToList());
-            /*
             string sql = "Query3Sql @id";
             SqlParameter param = new SqlParameter("@id", id);
 
             var query = Db.Database.SqlQuery<Malfunction>(sql, param);
 
-            malfunction.AddRange(query.ToList()); */
-
-            return malfunction;
+            return query.ToList();
         }
 
         //Запрос 4
         //Фамилия, имя, отчество работника станции, устранявшего данную неисправность в автомобиле данного клиента, и время ее устранения? 
-        public List<Query4View> Query4(int malfunctionId, int clientId) => Db.Repairs.Where(r => r.IdMalfunction == malfunctionId && r.IdClient == clientId).Select(r => new Query4View {
-        
-            Name = r.Worker.Person.Name,
-            Surename = r.Worker.Person.Surename,
-            Patronymic = r.Worker.Person.Patronymic,
-            Specialization = r.Worker.Specialization.NameSpecialization,
-            IsFixed = r.IsFixed,
-            DateOfCorrection = r.DateOfCorrection
-            
-        }).ToList(); 
+        public List<Query4View> Query4(int malfunctionId, int clientId)
+        {         
+            string sql = "Query4Sql @clientId, @malfunctionId";
+            SqlParameter param1 = new SqlParameter("@clientId", clientId);
+            SqlParameter param2 = new SqlParameter("@malfunctionId", malfunctionId);
+
+            var query = Db.Database.SqlQuery<Query4View>(sql, param1,param2);
+
+            return query.ToList();
+        }
 
         //Запрос 5
         //Фамилия, имя, отчество клиентов, сдавших в ремонт автомобили с указанным типом неисправности? 
-        public List<ClientView> Query5(int id) => Db.Repairs.Where(r=>r.Malfunction.Id == id).Select(c => new ClientView
+        public List<ClientView> Query5(int id)
         {
-            Id = c.Client.Id,
-            Surename = c.Client.Person.Surename,
-            Name = c.Client.Person.Name,
-            Patronymic = c.Client.Person.Patronymic,
-            Passport = c.Client.Passport,
-            Registration = c.Client.Registration,
-            DateOfBirth = c.Client.DateOfBirth
+            string sql = "Query5Sql @id";
+            SqlParameter param = new SqlParameter("@id",id);
 
-        }).ToList();
+            var query = Db.Database.SqlQuery<ClientView>(sql, param);
+
+            return query.ToList();
+        }
 
         //Запрос 6
         //Самая распространенная неисправность в автомобилях указанной марки?
@@ -244,29 +245,11 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
 
         //Запрос 8
         //Необходимо предусмотреть возможность выдачи справки о количестве автомобилей в ремонте на текущий момент
-        public int Query8()
-        {
-            string sql1 = "Query8Sql";
-            string sql2 = "select * from Cars";
-
-            var query8 = Db.Database.SqlQuery<int>(sql1);
-            var query = Db.Database.SqlQuery<Car>(sql2);
-
-            return query.Count() - query8.Count();
-        }
+        public int Query8() => Db.Repairs.Where(r => r.IsFixed == false).Select(r=>r.Car.Id).Distinct().Count();
 
         //Запрос 9
         //количестве незанятых рабочих на текущий момент.  
-        public int Query9()
-        {
-            string sql1 = "Query9Sql";
-            string sql2 = "select * from Workers";
-
-            var query9 = Db.Database.SqlQuery<int>(sql1);
-            var query = Db.Database.SqlQuery<Worker>(sql2);
-
-            return query.Count() - query9.Count();
-        }
+        public int Query9() => Db.Workers.Count() - Db.Repairs.Where(r => r.IsFixed == false).Select(r => r.Worker.Id).Distinct().Count();
 
         //Запрос 10
         //Требуется также выдача месячного отчета о работе станции техобслуживания.В отчет должны войти данные о количестве устраненных неисправностей каждого вида и о доходе, полученном станцией
@@ -292,9 +275,9 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
 
             Person person = Db.Persons.AsEnumerable().Last();
             int idPerson = person.Id;
-            Specialization sp = Db.Specializations.Where(s=> s.Id == specializationId).FirstOrDefault();
+            Specialization sp = Db.Specializations.Where(s => s.Id == specializationId).FirstOrDefault();
 
-            Db.Workers.Add(new Worker { IdPerson = idPerson, Person = person, IdSpecialization = specializationId, Specialization = sp, Experience = experience, WorkersСategory = workersСategory});
+            Db.Workers.Add(new Worker { Person = person, Specialization = sp, Experience = experience, WorkersСategory = workersСategory});
 
             Db.SaveChanges();
         }
