@@ -69,12 +69,16 @@
     <Compile Include="ViewModel\AppViewModel.cs" />
     <Compile Include="Views\CarView.cs" />
     <Compile Include="Views\ClientView.cs" />
+    <Compile Include="Views\MalfunctionView.cs" />
     <Compile Include="Views\Query10View.cs" />
     <Compile Include="Views\Query4View.cs" />
     <Compile Include="Views\Query6View.cs" />
     <Compile Include="Views\Query7View.cs" />
+    <Compile Include="Views\Receipt.cs" />
     <Compile Include="Views\RepairView.cs" />
+    <Compile Include="Views\SparePartsView.cs" />
     <Compile Include="Views\WorkerView.cs" />
+    <Compile Include="Views\Сheque.cs" />
     <Compile Include="Windows\AddWindow.xaml.cs">
       <DependentUpon>AddWindow.xaml</DependentUpon>
     </Compile>

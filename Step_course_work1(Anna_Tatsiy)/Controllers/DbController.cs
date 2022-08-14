@@ -230,7 +230,7 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
 
             var query6 = Db.Database.SqlQuery<Query6View>(sql, param);
 
-            return query6.ToList();
+            return query6.OrderByDescending(q=>q.CountMalfunctions).ToList();
         }
 
         //Запрос 7
@@ -255,7 +255,7 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
         //Требуется также выдача месячного отчета о работе станции техобслуживания.В отчет должны войти данные о количестве устраненных неисправностей каждого вида и о доходе, полученном станцией
         public List<Query10View> Query10(int month)
         {
-            string sql = "Query10Sql @month";
+            string sql = "Proc10Sql @month";
             SqlParameter param = new SqlParameter("@month", month);
 
             var query10 = Db.Database.SqlQuery<Query10View>(sql,param);
@@ -292,6 +292,63 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
             var query = Db.Database.ExecuteSqlCommand(sql, param);
 
             query.ToString();
+        }
+
+        /*Оставляя автомобиль на станции техобслуживания, клиент получает расписку, в 
+        * которой указано, когда автомобиль был поставлен на ремонт, какие он имеет 
+        * неисправности, когда станция обязуется возвратить отремонтированный автомобиль.*/
+        public string GetReceipt(int idCar, int idClient)
+        { 
+            List<Repair> repairs = Db.Repairs.Where(r=> r.Client.Id == idClient && r.Car.Id == idCar).ToList();
+
+            Receipt receipt = new Receipt() {
+
+                DateDelivery = repairs.Min(r => r.DateOfDetection),
+                DateIssue = repairs.Max(r => r.DateOfCorrection),
+
+               Malfunctions = Db.Repairs.Where(r => r.Client.Id == idClient && r.Car.Id == idCar).Select(r => new MalfunctionView {
+
+                   Id = r.Malfunction.Id,
+                   NameMalfunction = r.Malfunction.NameMalfunction,
+                   Price = r.Malfunction.Price
+
+                }).ToList(), 
+
+                SpareParts = Db.Repairs.Where(r => r.Client.Id == idClient && r.Car.Id == idCar).Select(r => new SparePartsView {
+                
+                    Id = r.SparePart.Id,
+                    NameSparePart = r.SparePart.NameSparePart,
+                    Price = r.SparePart.Price
+                
+                }).ToList(), 
+
+                Client = Db.Clients.Where(c=>c.Id == idClient).Select(c=> new ClientView {
+                
+                    Id = c.Id,
+                    Passport = c.Passport,
+                    Name = c.Person.Name,
+                    Surename = c.Person.Surename,
+                    Patronymic = c.Person.Patronymic,
+                    DateOfBirth = c.DateOfBirth,
+                    Registration = c.Registration
+
+                }).FirstOrDefault(),
+
+                Car = Db.Cars.Where(c=>c.Id == idCar).Select(c => new CarView
+                {
+                    Id = c.Id,
+                    CarBrand = c.CarBrand.NameCarBrand,
+                    Color = c.Color.NameColor,
+                    StateNumber = c.StateNumber,
+                    YearOfRelease = c.YearOfRelease,
+                    Owner = c.Client.Person.Surename + " " + c.Client.Person.Name + " " + c.Client.Person.Patronymic,
+                    OwnerPassport = c.Client.Passport
+
+                }).FirstOrDefault()
+            };
+
+            return receipt.ToString();
+            
         }
     }
 }

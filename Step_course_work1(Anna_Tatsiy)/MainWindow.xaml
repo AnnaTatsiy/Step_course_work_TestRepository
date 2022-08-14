@@ -248,6 +248,36 @@
                      </TabControl>
             </TabItem>
 
+            <TabItem Header="Квитанция">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Margin="10">Сформировать квитанцию</TextBlock>
+                    <ComboBox Width="200" 
+                              Margin="5,5,5,10" 
+                              ItemsSource="{Binding ClientsPassports}"
+                              SelectedValue="{Binding PassportId, Mode=TwoWay}"
+                              SelectedValuePath="Id"
+                              DisplayMemberPath="Passport"
+                              SelectedIndex="0"
+                              ></ComboBox>
+
+                    <ComboBox Width="200" 
+                              Margin="5,5,5,10" 
+                              ItemsSource="{Binding StateNumbers}"
+                              SelectedValue="{Binding StateNumberId, Mode=TwoWay}"
+                              SelectedValuePath="Id"
+                              DisplayMemberPath="StateNumber"
+                              SelectedIndex="0"
+                              ></ComboBox>
+
+                    <Button Width="100" 
+                            Height="20" 
+                            Margin="5,5,5,10"
+                            Command="{Binding GenerateReceiptCommand}">Ок</Button>
+
+                    <TextBlock Margin="20,2,20,2" Text="{Binding ReceiptString}"></TextBlock>
+                    
+                </StackPanel>
+            </TabItem>
 
         </TabControl>
         

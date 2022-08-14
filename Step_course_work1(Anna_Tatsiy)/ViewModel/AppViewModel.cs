@@ -51,6 +51,19 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
             }
         }
 
+        //Квитанция
+        private string _receiptString;
+
+        public string ReceiptString
+        {
+            get => _receiptString;
+            private set
+            {
+                _receiptString = value;
+                OnPropertyChanged();
+            }
+        }
+
         //Id выбранного рабочего
         public int WorkerId { get; set; }
 
@@ -338,6 +351,25 @@ namespace Step_course_work1_Anna_Tatsiy_.ViewModel
             }));
         }
 
+        /*Оставляя автомобиль на станции техобслуживания, клиент получает расписку, в 
+        * которой указано, когда автомобиль был поставлен на ремонт, какие он имеет 
+        * неисправности, когда станция обязуется возвратить отремонтированный автомобиль.*/
+
+        private RelayCommand _generateReceiptCommand;
+
+        public RelayCommand GenerateReceiptCommand
+        {
+            get =>
+            _generateReceiptCommand ??
+            (_generateReceiptCommand = new RelayCommand(
+            obj => {
+                try
+                {
+                    ReceiptString = _controller.GetReceipt(StateNumberId,PassportId);
+                }
+                catch { MessageBox.Show("Заказ на ремонт не найден", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            }));
+        }
 
         // Реализация INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

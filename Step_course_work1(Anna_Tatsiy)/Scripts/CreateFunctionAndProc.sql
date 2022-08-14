@@ -136,7 +136,7 @@ as
 	order by CountMalfunctions 
 go
 
-select * from Query6Sql(8);
+select * from Query6Sql(14);
 go
 
 select * from Repairs
@@ -163,13 +163,13 @@ go
 
 --Запрос 10
 --Требуется также выдача месячного отчета о работе станции техобслуживания. В отчет должны войти данные о количестве устраненных неисправностей каждого вида и о доходе, полученном станцией
-drop proc if exists Query10Sql;
+drop function if exists Query10Sql;
 go
 
-create proc Query10Sql
-	@month int
+create function Query10Sql(@month int)
+	returns table
 	as
-		begin 
+		return
 			select 
 				Malfunctions.Id,
 				Malfunctions.NameMalfunction,
@@ -188,11 +188,37 @@ create proc Query10Sql
 			from Malfunctions left join Archive on Malfunctions.Id = Archive.Malfunction_Id
 			where Archive.IsFixed = 1 and MONTH(Archive.DateOfCorrection) = @month
 			group by Malfunctions.Id,Malfunctions.NameMalfunction,Malfunctions.Price
+	--end;
+go
+
+select * from Query10Sql(8)
+go  
+
+drop proc if exists Proc10Sql;
+go
+
+create proc Proc10Sql
+@month int
+	as
+		begin 
+		drop table if exists Query10Sql_copy;
+		select * into  Query10Sql_copy
+			from  Query10Sql(@month)
+
+			select distinct 
+				Id,
+				NameMalfunction,
+				Sum([Count]) as [Count],
+				Sum([Profit]) as [Profit]
+			
+			from Query10Sql_copy
+			group by Id,NameMalfunction
+			drop table Query10Sql_copy;
 	end;
 go
 
-exec Query10Sql 8
-go  
+exec Proc10Sql 8
+go
 
 --Удаление рабочего 
 drop proc if exists DropWorkerSql;
@@ -326,5 +352,26 @@ exec Query5Sql 1
 go
 
 --Запрос 12
---а также перечень отремонтированных за прошедший месяц и находящихся в ремонте автомобилей, время ремонта каждого автомобиля, список его неисправностей, сведения о работниках, осуществлявших ремонт. 
+--клиент получает счет, в котором содержится перечень устраненных неисправностей с указанием времени работы, стоимости работы и стоимости запчастей. 
+drop proc if exists Query12Sql;
+go
 
+create proc Query12Sql
+	@idCar int,
+	@idClient int
+	as 
+		begin 
+			select 
+				Archive.DateOfDetection,
+				Archive.DateOfCorrection,
+				M
+
+			from Archive join Malfunctions on Archive.Malfunction_Id = Malfunctions.Id
+						 join (Clients join People on Clients.Person_Id = People.Id) on Clients.Id = Archive.Client_Id
+			where Archive.Client_Id = @idClient and Archive.Car_Id = @idCar
+		
+	end;
+go
+
+exec Query12Sql 1, 1 
+go
