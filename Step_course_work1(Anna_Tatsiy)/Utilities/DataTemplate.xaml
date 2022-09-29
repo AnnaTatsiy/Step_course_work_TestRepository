@@ -1,0 +1,70 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:Step_course_work1_Anna_Tatsiy_.ViewModel"
+                    xmlns:view="clr-namespace:Step_course_work1_Anna_Tatsiy_.View">
+
+    <DataTemplate DataType="{x:Type vm:CarVM}">
+        <view:Cars/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:ClientVM}">
+        <view:Clients/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:WorkerVM}">
+        <view:Workers/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:RepairVM}">
+        <view:Repairs/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:ArchiveVM}">
+        <view:Archive/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:Query7VM}">
+        <view:Query7UserControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:СhequeVM}">
+        <view:СhequeUserControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:QueryVM}">
+        <view:QueryUserControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:Query1VM}">
+        <view:Query1UserControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:Query2VM}">
+        <view:Query2UserControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:Query3VM}">
+        <view:Query3UserControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:Query4VM}">
+        <view:Query4UserControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:Query5VM}">
+        <view:Query5UserControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:Query6VM}">
+        <view:Query6UserControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:HomeVM}">
+        <view:HomeUserControl/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:AboutVM}">
+        <view:AboutUserControl/>
+    </DataTemplate>
+
+</ResourceDictionary>

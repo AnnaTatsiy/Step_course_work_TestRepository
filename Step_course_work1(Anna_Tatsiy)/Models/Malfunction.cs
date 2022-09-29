@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Step_course_work1_Anna_Tatsiy_.Models
 {
-    internal class Malfunction//Доступные неисправности для авто
+    public class Malfunction//Доступные неисправности для авто
     {
         public int Id { get; set; }
         public string NameMalfunction { get; set; }//Название неисправности

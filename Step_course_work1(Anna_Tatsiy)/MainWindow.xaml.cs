@@ -17,5 +17,20 @@ namespace Step_course_work1_Anna_Tatsiy_
             AddWindow addWindow = new AddWindow();
             addWindow.ShowDialog();
         }
+
+        private void ViewEditClientWindow_Click(object sender, RoutedEventArgs e)
+        {
+            EditClientWindow editClientWindow = new EditClientWindow();
+            editClientWindow.Show();
+        }
+
+        private void ViewEditCarWindow_Click(object sender, RoutedEventArgs e)
+        {
+            EditCarWindow editCarWindow = new EditCarWindow();
+            editCarWindow.ShowDialog();
+        }
+
+        private void CloseApp_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
+
     }
 }

@@ -4,282 +4,217 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Step_course_work1_Anna_Tatsiy_"
-        xmlns:viewModel="clr-namespace:Step_course_work1_Anna_Tatsiy_.ViewModel"
+        xmlns:vm="clr-namespace:Step_course_work1_Anna_Tatsiy_.ViewModel"
+        xmlns:Menu="clr-namespace:Step_course_work1_Anna_Tatsiy_.Utilities"
+        xmlns:Icon ="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="900"
-        WindowStartupLocation="CenterScreen">
+        Title="БД Станция технического обслуживания и ремонта"
+        Icon="/Images/icon.png" Height="720" Width="1250"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Background="Transparent">
 
     <Window.DataContext>
-        <viewModel:AppViewModel/>
+        <vm:NavigationVM/>
     </Window.DataContext>
     
-    <Grid>
+    <Grid Background="Transparent">
 
-        <TabControl  FontSize="14">
-            <TabItem Header="Клиенты">
-                <DataGrid Background="AliceBlue" 
-                     ItemsSource="{Binding Clients}">
-                </DataGrid>
-            </TabItem>
+        <Border Background="#FFF1F1F1"
+                CornerRadius="10">
+            
+        </Border>
 
-            <TabItem Header="Рабочие">
-                <StackPanel Orientation="Vertical">
-                    <ToolBar Height="30">
-                        <Button Height="25" Width="25"
-                                Click="ViewAddWindow_Click">
-                            <Image Source="/Images/add.png"></Image>
-                        </Button>
-                        <Button Height="25" Width="25"
-                            Command="{Binding DeleteWorkerCommand}">
-                            <Image Source="/Images/delete.png"></Image>
-                        </Button>
-                    </ToolBar>
-                    <DataGrid Background="AliceBlue" 
-                     ItemsSource="{Binding Workers}"
-                     SelectionMode="Single"
-                     SelectedIndex="{Binding WorkerId}">
-                </DataGrid>
-                </StackPanel>
-            </TabItem>
+        <!--Base Grid -->
+        <Grid>
 
-            <TabItem Header="Авто">
-                <DataGrid Background="AliceBlue" 
-                     ItemsSource="{Binding Cars}">
-                </DataGrid>
-            </TabItem>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="230"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Навигационная панель-->
 
-            <TabItem Header="Ремонты">
-                <DataGrid Background="AliceBlue" 
-                     ItemsSource="{Binding Repairs}">
-                </DataGrid>
-            </TabItem>
+            <Grid HorizontalAlignment="Left"
+                  Width="230">
 
-            <TabItem Header="Запрос 1">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Margin="10">Вывести владельца автомобиля с выбранным номером государственной регистрации.</TextBlock>
-                    <ComboBox Width="200" 
-                              Margin="5,5,5,10" 
-                              ItemsSource="{Binding StateNumbers}"
-                              SelectedValue="{Binding StateNumberId, Mode=TwoWay}"
-                              SelectedValuePath="Id"
-                              DisplayMemberPath="StateNumber"
-                              SelectedIndex="0"
-                              ></ComboBox>
+                <Border Background="#272B2F"
+                        CornerRadius="10,0,0,10" />
 
-                    <Button Width="100" 
-                            Height="20" 
-                            Margin="5,5,5,10"
-                            Command="{Binding SelectByQuery1Command}">Поиск</Button>
-                    <DataGrid Background="AliceBlue"
-                              ItemsSource="{Binding Query1}">
-                    </DataGrid>
-                </StackPanel>
-            </TabItem>
+                <StackPanel Height="550"
+                            Width="230">
 
-            <TabItem Header="Запрос 2">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Margin="10">Вывести автомобиль выбранного владельца.</TextBlock>
-                    <ComboBox Width="200" 
-                              Margin="5,5,5,10" 
-                              ItemsSource="{Binding Passports}"
-                              SelectedValue="{Binding PassportId, Mode=TwoWay}"
-                              SelectedValuePath="Id"
-                              DisplayMemberPath="Passport"
-                              SelectedIndex="0"
-                              ></ComboBox>
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding HomeCommand}"
+                              IsChecked="True">
 
-                    <Button Width="100" 
-                            Height="20" 
-                            Margin="5,5,5,10"
-                            Command="{Binding SelectByQuery2Command}">Поиск</Button>
-                    <DataGrid Background="AliceBlue"
-                              ItemsSource="{Binding Query2}">
-                    </DataGrid>
-                </StackPanel>
-            </TabItem>
+                        <Grid>
 
-            <TabItem Header="Запрос 3">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Margin="10">Вывести перечень устраненных неисправностей в автомобиле выбранного владельца.</TextBlock>
-                    <ComboBox Width="200" 
-                              Margin="5,5,5,10" 
-                              ItemsSource="{Binding Passports}"
-                              SelectedValue="{Binding PassportId, Mode=TwoWay}"
-                              SelectedValuePath="Id"
-                              DisplayMemberPath="Passport"
-                              SelectedIndex="0"
-                              ></ComboBox>
+                            <Icon:PackIconMaterial Kind="Home"/>
+                            <TextBlock Text="Главная"
+                                       Style="{StaticResource Text_Style}">
 
-                    <Button Width="100" 
-                            Height="20" 
-                            Margin="5,5,5,10"
-                            Command="{Binding SelectByQuery3Command}">Поиск</Button>
-                    <DataGrid Background="AliceBlue"
-                              ItemsSource="{Binding Query3}">
-                    </DataGrid>
-                </StackPanel>
-            </TabItem>
+                            </TextBlock>
+                        </Grid>
 
-            <TabItem Header="Запрос 4">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Margin="10">Вывести работника станции, устранявшего данную неисправность в автомобиле данного клиента, и время устранения.</TextBlock>
+                    </Menu:Btn>
 
-                    <ComboBox Width="200" 
-                              Margin="5,5,5,10" 
-                              ItemsSource="{Binding Malfunctions}"
-                              SelectedValue="{Binding MalfunctionId, Mode=TwoWay}"
-                              SelectedValuePath="Id"
-                              DisplayMemberPath="Malfunction"
-                              SelectedIndex="0"
-                              >
-                    </ComboBox>
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding ClientsCommand}">
 
-                    <ComboBox Width="200" 
-                              Margin="5,5,5,10" 
-                              ItemsSource="{Binding ClientsPassports}"
-                              SelectedValue="{Binding PassportId, Mode=TwoWay}"
-                              SelectedValuePath="Id"
-                              DisplayMemberPath="Passport"
-                              SelectedIndex="0"
-                              ></ComboBox>
+                        <Grid>
 
-                    <Button Width="100" 
-                            Height="20" 
-                            Margin="5,5,5,10"
-                            Command="{Binding SelectByQuery4Command}">Поиск</Button>
-                    <DataGrid Background="AliceBlue"
-                              ItemsSource="{Binding Query4}">
-                    </DataGrid>
-                </StackPanel>
-            </TabItem>
+                            <Icon:PackIconMaterial Kind="AccountMultipleOutline"/>
+                            <TextBlock Text="Клиенты"
+                                       Style="{StaticResource Text_Style}">
+                                
+                            </TextBlock>
+                        </Grid>
+                        
+                    </Menu:Btn>
 
-            <TabItem Header="Запрос 5">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Margin="10">Вывести клиентов, сдавших в ремонт автомобили с указанным типом неисправности.</TextBlock>
-                    <ComboBox Width="200" 
-                              Margin="5,5,5,10" 
-                              ItemsSource="{Binding Malfunctions}"
-                              SelectedValue="{Binding MalfunctionId, Mode=TwoWay}"
-                              SelectedValuePath="Id"
-                              DisplayMemberPath="Malfunction"
-                              SelectedIndex="0"
-                              ></ComboBox>
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding WorkersCommand}"
+                             >
 
-                    <Button Width="100" 
-                            Height="20" 
-                            Margin="5,5,5,10"
-                            Command="{Binding SelectByQuery5Command}">Поиск</Button>
-                    <DataGrid Background="AliceBlue"
-                              ItemsSource="{Binding Query5}">
-                    </DataGrid>
-                </StackPanel>
-            </TabItem>
+                        <Grid>
 
-            <TabItem Header="Запрос 6">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Margin="10">Вывести самую распространенную неисправность в автомобилях указанной марки.</TextBlock>
-                    <ComboBox Width="200" 
-                              Margin="5,5,5,10" 
-                              ItemsSource="{Binding CarBrands}"
-                              SelectedValue="{Binding CarBrandId, Mode=TwoWay}"
-                              SelectedValuePath="Id"
-                              DisplayMemberPath="NameCarBrand"
-                              SelectedIndex="0"
-                              ></ComboBox>
+                            <Icon:PackIconMaterial Kind="AccountBoxMultipleOutline"/>
+                            <TextBlock Text="Рабочие"
+                                       Style="{StaticResource Text_Style}">
 
-                    <Button Width="100" 
-                            Height="20" 
-                            Margin="5,5,5,10"
-                            Command="{Binding SelectByQuery6Command}">Поиск</Button>
-                    <DataGrid Background="AliceBlue"
-                              ItemsSource="{Binding Query6}">
-                    </DataGrid>
-                </StackPanel>
-            </TabItem>
+                            </TextBlock>
+                        </Grid>
 
-            <TabItem Header="Запрос 7">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Margin="10">Вывести количество рабочих каждой специальности на станции.</TextBlock>
+                    </Menu:Btn>
 
-                <DataGrid Background="AliceBlue"
-                              ItemsSource="{Binding Query7}">
-                </DataGrid>
-            </StackPanel>
-            </TabItem>
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding CarsCommand}"
+                             >
 
-            <TabItem Header="Справка">
-                <TabControl>
-                    <TabItem Header="Общие сведения">
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Margin="10">Количество незанятых рабочих на текущий момент.</TextBlock>
-                            <TextBlock  Text="{Binding UnoccupiedWorkers}"></TextBlock>
-                            <TextBlock Margin="10">Количестве автомобилей в ремонте на текущий момент</TextBlock>
-                            <TextBlock Text="{Binding CarsRepair}"></TextBlock>
-                            <ComboBox Width="200" 
-                              Margin="5,5,5,10" 
-                              ItemsSource="{Binding Months}"
-                              SelectedValue="{Binding Month, Mode=TwoWay}"
-                              SelectedValuePath="Value"
-                              DisplayMemberPath="Key"
-                              SelectedIndex="0"
-                              ></ComboBox>
+                        <Grid>
 
-                            <Button Width="100" 
-                            Height="20" 
-                            Margin="5,5,5,10"
-                            Command="{Binding SelectByQuery10Command}">Поиск</Button>
+                            <Icon:PackIconMaterial Kind="Car"/>
+                            <TextBlock Text="Авто"
+                                       Style="{StaticResource Text_Style}">
 
-                            <TextBlock Margin="10">Общий доход</TextBlock>
-                            <TextBlock Text="{Binding Profit}"></TextBlock>
-                            <DataGrid Background="AliceBlue"
-                              ItemsSource="{Binding Query10}">
-                            </DataGrid>
+                            </TextBlock>
+                        </Grid>
 
-                        </StackPanel>
-                    </TabItem>
+                    </Menu:Btn>
 
-                    <TabItem Header="Архив">
 
-                        <DataGrid Background="AliceBlue"
-                              ItemsSource="{Binding Archive}">
-                        </DataGrid>
-                    </TabItem>
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding RepairsCommand}"
+                             >
+
+                        <Grid>
+
+                            <Icon:PackIconMaterial Kind="WrenchOutline"/>
+                            <TextBlock Text="Ремонты"
+                                       Style="{StaticResource Text_Style}">
+
+                            </TextBlock>
+                        </Grid>
+
+                    </Menu:Btn>
+
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding QueryCommand}"
+                             >
+
+                        <Grid>
+
+                            <Icon:PackIconMaterial Kind="LabelMultiple"/>
+                            <TextBlock Text="Запросы"
+                                       Style="{StaticResource Text_Style}">
+
+                            </TextBlock>
+                        </Grid>
+
+                    </Menu:Btn>
+
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding ArchiveCommand}"
+                             >
+
+                        <Grid>
                             
-                     </TabControl>
-            </TabItem>
+                            <Icon:PackIconMaterial Kind="CalendarClock"/>
+                            <TextBlock Text="Архив"
+                                       Style="{StaticResource Text_Style}">
 
-            <TabItem Header="Квитанция">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Margin="10">Сформировать квитанцию</TextBlock>
-                    <ComboBox Width="200" 
-                              Margin="5,5,5,10" 
-                              ItemsSource="{Binding ClientsPassports}"
-                              SelectedValue="{Binding PassportId, Mode=TwoWay}"
-                              SelectedValuePath="Id"
-                              DisplayMemberPath="Passport"
-                              SelectedIndex="0"
-                              ></ComboBox>
+                            </TextBlock>
+                        </Grid>
 
-                    <ComboBox Width="200" 
-                              Margin="5,5,5,10" 
-                              ItemsSource="{Binding StateNumbers}"
-                              SelectedValue="{Binding StateNumberId, Mode=TwoWay}"
-                              SelectedValuePath="Id"
-                              DisplayMemberPath="StateNumber"
-                              SelectedIndex="0"
-                              ></ComboBox>
+                    </Menu:Btn>
 
-                    <Button Width="100" 
-                            Height="20" 
-                            Margin="5,5,5,10"
-                            Command="{Binding GenerateReceiptCommand}">Ок</Button>
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding СhequeCommand}"
+                             >
 
-                    <TextBlock Margin="20,2,20,2" Text="{Binding ReceiptString}"></TextBlock>
-                    
+                        <Grid>
+
+                            <Icon:PackIconMaterial Kind="Upload"/>
+                            <TextBlock Text="Сформировать"
+                                       Style="{StaticResource Text_Style}">
+
+                            </TextBlock>
+                        </Grid>
+
+                    </Menu:Btn>
+
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding AboutCommand}"
+                             >
+
+                        <Grid>
+
+                            <Icon:PackIconMaterial Kind="AlertCircleOutline"/>
+                            <TextBlock Text="О ремонте"
+                                       Style="{StaticResource Text_Style}">
+
+                            </TextBlock>
+                        </Grid>
+
+                    </Menu:Btn>
+
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding Query7Command}"
+                             >
+
+                        <Grid>
+
+                            <Icon:PackIconMaterial Kind="BriefcaseOutline"/>
+                            <TextBlock Text="Специальности"
+                                       Style="{StaticResource Text_Style}">
+
+                            </TextBlock>
+                        </Grid>
+
+                    </Menu:Btn>
+
+
+
+
                 </StackPanel>
-            </TabItem>
+                
+            </Grid>
 
-        </TabControl>
+            <Grid Grid.Column="1">
+
+                <ContentControl x:Name="Pages"
+                                Content="{Binding CurrentView}"/>
+
+            </Grid>
+
+        </Grid>
+
+
+        <Button x:Name="CloseApp"
+                  Click="CloseApp_Click"
+                  Style="{StaticResource ExitApp}"/>
         
     </Grid>
 </Window>

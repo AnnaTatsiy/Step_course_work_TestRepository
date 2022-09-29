@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Data.Entity;
+using System.Collections;
+using System.Data.SqlClient;
 
 using Step_course_work1_Anna_Tatsiy_.Context;
 using Step_course_work1_Anna_Tatsiy_.Models;
 using Step_course_work1_Anna_Tatsiy_.Views;
-using System.Collections;
-using System.Data.SqlClient;
 
 namespace Step_course_work1_Anna_Tatsiy_.Controllers
 {
@@ -27,82 +25,17 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
         }
 
         //Создание архива 
-        private void CreateArchive()
-        {
-            string sql = "CreateArchiveSql";
-            var createArchive = Db.Database.ExecuteSqlCommand(sql);
-
-            createArchive.ToString();
-        }
-
+        private void CreateArchive() => Db.Database.ExecuteSqlCommand("CreateArchiveSql").ToString();
         //Архив 
-        public List<RepairView> GetArchive()
-        {
-
-            string sql = " select * from ViewArchive";
-            var getArchive = Db.Database.SqlQuery<RepairView>(sql);
-
-            return getArchive.ToList();
-        }
-
-
+        public List<RepairView> GetArchive() => Db.Database.SqlQuery<RepairView>("select * from ViewArchive").ToList();
         //Таблица клиенты 
-        public List<ClientView> GetClients() => Db.Clients.Select(c => new ClientView
-        {
-            Id = c.Id,
-            Surename = c.Person.Surename,
-            Name = c.Person.Name,
-            Patronymic = c.Person.Patronymic,
-            Passport = c.Passport,
-            Registration = c.Registration,
-            DateOfBirth = c.DateOfBirth
-
-        }).ToList();
-
+        public List<ClientView> GetClients() => Db.Database.SqlQuery<ClientView>("select * from ViewClient").ToList();
         //Таблица рабочие 
-        public List<WorkerView> GetWorkers() => Db.Workers.Select(s => new WorkerView
-        {
-            Id = s.Id,
-            Surename = s.Person.Surename,
-            Patronymic = s.Person.Patronymic,
-            Name = s.Person.Name,
-            Specialization = s.Specialization.NameSpecialization,
-            WorkerCategory = s.WorkersСategory,
-            Experience = s.Experience
-
-        }).ToList();
-
+        public List<WorkerView> GetWorkers() => Db.Database.SqlQuery<WorkerView>("select * from ViewWorkers").ToList();
         //Таблица авто 
-        public List<CarView> GetCars() => Db.Cars.Select(c => new CarView
-        {
-            Id = c.Id,
-            CarBrand = c.CarBrand.NameCarBrand,
-            Color = c.Color.NameColor,
-            StateNumber = c.StateNumber,
-            YearOfRelease = c.YearOfRelease,
-            Owner = c.Client.Person.Surename + " " + c.Client.Person.Name + " " + c.Client.Person.Patronymic,
-            OwnerPassport = c.Client.Passport
-
-        }).ToList();
-
+        public List<CarView> GetCars() => Db.Database.SqlQuery<CarView>("select * from ViewCars").ToList();
         //Таблица ремонты 
-        public List<RepairView> GetRepairs() => Db.Repairs.Select(r => new RepairView {
-
-            Id = r.Id,
-            Malfunction = r.Malfunction.NameMalfunction,
-            Worker = r.Worker.Person.Surename + " " + r.Worker.Person.Name + " " + r.Worker.Person.Patronymic,
-            Specialization = r.Worker.Specialization.NameSpecialization,
-            CarBrand = r.Car.CarBrand.NameCarBrand,
-            StateNumber = r.Car.StateNumber,
-            DateOfDetection = r.DateOfDetection,
-            DateOfCorrection = r.DateOfCorrection,
-            Client = r.Client.Person.Surename + " " + r.Client.Person.Name + " " + r.Client.Person.Patronymic,
-            Passport = r.Client.Passport,
-            IsFixed = r.IsFixed,
-            Price = r.Malfunction.Price + r.SparePart.Price
-
-        }).ToList();
-
+        public List<RepairView> GetRepairs() => Db.Database.SqlQuery<RepairView>("select * from ViewRepairs").ToList();
         //--------------------------------------------------------------------------------------------------------
 
         //Запросы для ComboBox
@@ -126,7 +59,7 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
         public IEnumerable GetPassports() => Db.Cars.Select(c => new
         {
             c.Client.Id,
-            Passport = c.Client.Person.Surename + " " + c.Client.Person.Name + " " + c.Client.Person.Patronymic + " |" +
+            Passport = c.Client.Person.Surename + " " + c.Client.Person.Name + " " + c.Client.Person.Patronymic + " " +
             c.Client.Passport
 
         }).Distinct().ToList();
@@ -147,6 +80,15 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
 
         }).ToList();
 
+        //Вывод всех цветов
+        public IEnumerable GetColors() => Db.Colors.Select(m => new {
+
+            m.Id,
+            Color = m.NameColor
+
+        }).ToList();
+
+        //Вывод всех специальностей
         public IEnumerable GetSpecializations() => Db.Specializations.Select(s => new {
         
             s.Id,
@@ -158,17 +100,15 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
 
         //Запрос 1
         //Фамилия, имя, отчество и адрес владельца автомобиля с данным номером государственной регистрации? 
-        public List<ClientView> Query1(int id) => Db.Cars.Where(c=>c.Id == id).Select( c => new ClientView
+        public List<ClientView> Query1(int id)
         {
-            Id = c.Id,
-            Surename = c.Client.Person.Surename,
-            Name = c.Client.Person.Name,
-            Patronymic = c.Client.Person.Patronymic,
-            Passport = c.Client.Passport,
-            Registration = c.Client.Registration,
-            DateOfBirth = c.Client.DateOfBirth
+            string sql = "Query1Sql @id";
+            SqlParameter param = new SqlParameter("@id", id);
 
-        }).ToList();
+            var query = Db.Database.SqlQuery<ClientView>(sql, param);
+
+            return query.ToList();
+        }
 
         //Запрос 2
         //Марка и год выпуска автомобиля данного владельца
@@ -253,12 +193,12 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
 
         //Запрос 10
         //Требуется также выдача месячного отчета о работе станции техобслуживания.В отчет должны войти данные о количестве устраненных неисправностей каждого вида и о доходе, полученном станцией
-        public List<Query10View> Query10(int month)
+        public List<Report> Query10(int month)
         {
             string sql = "Proc10Sql @month";
             SqlParameter param = new SqlParameter("@month", month);
 
-            var query10 = Db.Database.SqlQuery<Query10View>(sql,param);
+            var query10 = Db.Database.SqlQuery<Report>(sql,param);
 
             return query10.ToList();
         }
@@ -297,58 +237,127 @@ namespace Step_course_work1_Anna_Tatsiy_.Controllers
         /*Оставляя автомобиль на станции техобслуживания, клиент получает расписку, в 
         * которой указано, когда автомобиль был поставлен на ремонт, какие он имеет 
         * неисправности, когда станция обязуется возвратить отремонтированный автомобиль.*/
-        public string GetReceipt(int idCar, int idClient)
-        { 
-            List<Repair> repairs = Db.Repairs.Where(r=> r.Client.Id == idClient && r.Car.Id == idCar).ToList();
+        public Сheque GenerateReceipt(int idCar, int idClient) => GetСheque( idCar, idClient, true);
 
-            Receipt receipt = new Receipt() {
+        /*После возвращения автомобиля клиенту данные о произведенном ремонте помещаются в архив, 
+         * клиент получает счет, в котором содержится перечень устраненных неисправностей с указанием 
+         * времени работы, стоимости работы и стоимости запчастей.  */
+        public Сheque GenerateСheque(int idCar, int idClient) => GetСheque(idCar, idClient, false);
+
+        public Сheque GetСheque(int idCar, int idClient, bool isReceipt)
+        {
+            string sql;
+            if (isReceipt) sql = "Query13Sql @idCar, @idClient";
+            else sql = "Query12Sql @idCar, @idClient";
+
+            SqlParameter param1 = new SqlParameter("@idCar", idCar);
+            SqlParameter param2 = new SqlParameter("@idClient", idClient);
+
+            List<RepairView> repairs = Db.Database.SqlQuery<RepairView>(sql, param1, param2).ToList();
+
+            Сheque сheque = new Сheque()
+            {
 
                 DateDelivery = repairs.Min(r => r.DateOfDetection),
                 DateIssue = repairs.Max(r => r.DateOfCorrection),
 
-               Malfunctions = Db.Repairs.Where(r => r.Client.Id == idClient && r.Car.Id == idCar).Select(r => new MalfunctionView {
+                Malfunctions = repairs.Select(r => new MalfunctionView
+                {
 
-                   Id = r.Malfunction.Id,
-                   NameMalfunction = r.Malfunction.NameMalfunction,
-                   Price = r.Malfunction.Price
+                    Id = r.MalfunctionId,
+                    NameMalfunction = r.Malfunction,
+                    IsFixed = r.IsFixed,
+                    Price = r.Price
 
-                }).ToList(), 
+                }).ToList(),
 
-                SpareParts = Db.Repairs.Where(r => r.Client.Id == idClient && r.Car.Id == idCar).Select(r => new SparePartsView {
-                
-                    Id = r.SparePart.Id,
-                    NameSparePart = r.SparePart.NameSparePart,
-                    Price = r.SparePart.Price
-                
-                }).ToList(), 
+                SpareParts = repairs.Select(r => new SparePartsView
+                {
 
-                Client = Db.Clients.Where(c=>c.Id == idClient).Select(c=> new ClientView {
-                
-                    Id = c.Id,
-                    Passport = c.Passport,
-                    Name = c.Person.Name,
-                    Surename = c.Person.Surename,
-                    Patronymic = c.Person.Patronymic,
-                    DateOfBirth = c.DateOfBirth,
-                    Registration = c.Registration
+                    Id = r.SparePartId,
+                    NameSparePart = r.SparePart,
+                    Price = r.SparePartPrice,
+                    IsFixed = r.IsFixed
+
+                }).ToList(),
+
+                Client = repairs.Select(c => new ClientView
+                {
+
+                    Id = c.ClientId,
+                    FullName = c.Client,
+                    Passport = c.Passport
 
                 }).FirstOrDefault(),
 
-                Car = Db.Cars.Where(c=>c.Id == idCar).Select(c => new CarView
+                Car = repairs.Select(c => new CarView
                 {
-                    Id = c.Id,
-                    CarBrand = c.CarBrand.NameCarBrand,
-                    Color = c.Color.NameColor,
+                    Id = c.CarsId,
+                    CarBrand = c.CarBrand,
                     StateNumber = c.StateNumber,
-                    YearOfRelease = c.YearOfRelease,
-                    Owner = c.Client.Person.Surename + " " + c.Client.Person.Name + " " + c.Client.Person.Patronymic,
-                    OwnerPassport = c.Client.Passport
 
-                }).FirstOrDefault()
+                }).FirstOrDefault(),
+
+                isReceipt = isReceipt
             };
 
-            return receipt.ToString();
-            
+            return сheque;
         }
+
+        //изменение сведений о клиенте (клиент может поменять паспорт, адрес)
+        public void EditClient(int idClient, string passport, string registration)
+        {
+            string sql = " EditClientSql @idClient, @passport, @registration";
+            SqlParameter param1 = new SqlParameter("@idClient", idClient);
+            SqlParameter param2 = new SqlParameter("@passport", passport);
+            SqlParameter param3 = new SqlParameter("@registration", registration);
+
+            Db.Database.ExecuteSqlCommand(sql, param1, param2, param3).ToString();
+        }
+
+        //номера государственной регистрации и цвета автомобиля. 
+        public void EditCar(int idCar, string stateNumber, int idColor)
+        {
+            string sql = " EditCarSql @idCar, @stateNumber, @idColor";
+            SqlParameter param1 = new SqlParameter("@idCar", idCar);
+            SqlParameter param2 = new SqlParameter("@stateNumber", stateNumber);
+            SqlParameter param3 = new SqlParameter("@idColor", idColor);
+
+            Db.Database.ExecuteSqlCommand(sql, param1, param2, param3).ToString();
+        }
+
+        //перечень отремонтированных за прошедший месяц и находящихся в ремонте автомобилей
+        //время ремонта каждого автомобиля, список его неисправностей, сведения о работниках, осуществлявших ремонт.
+
+        public List<RepairView> Query14() => Db.Database.SqlQuery<RepairView>("select * from Query14Sql()").ToList();
+
+        //вывести только авто без повторений 
+        public List<CarView> Query14CarView(List<RepairView> list) => list.Select(r => new CarView
+        {
+            Id = r.CarsId,
+            CarBrand = r.CarBrand,
+            StateNumber = r.StateNumber
+
+        }).Distinct().ToList();
+
+        //Запросы для ComboBox
+        //Все id авто
+        public IEnumerable GetIdCars(List<CarView> list) => list.Select(c => new
+        {
+            c.Id,
+            
+        }).ToList();
+
+        //вывести данные о ремонте заданного авто 
+        public List<RepairView> Query14RepairView(List<RepairView> list, int id) =>
+            list.Where(r=>r.CarsId == id).Select(r => new RepairView
+            {
+                Malfunction = r.Malfunction,
+                IsFixed = r.IsFixed,
+                DateOfDetection = r.DateOfDetection,
+                DateOfCorrection = r.DateOfCorrection,
+                Worker = r.Worker
+
+            }).ToList();
     }
 }

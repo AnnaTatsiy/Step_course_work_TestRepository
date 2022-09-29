@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="Step_course_work1_Anna_Tatsiy_.View.Clients"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Step_course_work1_Anna_Tatsiy_.View"
+             xmlns:vm="clr-namespace:Step_course_work1_Anna_Tatsiy_.ViewModel"
+             xmlns:Icon ="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d" 
+             d:DesignHeight="720" d:DesignWidth="1022"
+             Style="{StaticResource Page_Style}">
+
+    <UserControl.DataContext>
+        <vm:ClientVM/>
+    </UserControl.DataContext>
+    
+    
+    <Grid Margin="30">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <Border CornerRadius="0,20,20,0"></Border>
+
+        <TextBlock Grid.Row="0" FontSize="24" FontWeight="SemiBold" Margin="0 40 0 20" 
+                   HorizontalAlignment="Left" Foreground="#121518">Список клиентов:</TextBlock>
+        
+        <DataGrid  Grid.Row="1" 
+                              ItemsSource="{Binding Clients }">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50"></DataGridTextColumn>
+                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Паспорт" Binding ="{Binding Passport}" Width="90"></DataGridTextColumn>
+                <DataGridTextColumn Header="Регистрация" Binding="{Binding Registration}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding DateOfBirth, StringFormat=dd.MM.yyy}" Width="130"></DataGridTextColumn>
+            
+
+                <DataGridTemplateColumn Width="auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource gridEditButton}">
+                                    <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <!--
+                       
+                        SelectedIndex="{Binding SelectedClient.Id,Mode=TwoWay}"> -->
+
+        </DataGrid>
+    </Grid>
+</UserControl>

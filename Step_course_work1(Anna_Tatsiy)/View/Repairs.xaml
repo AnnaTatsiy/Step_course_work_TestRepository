@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="Step_course_work1_Anna_Tatsiy_.View.Repairs"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Step_course_work1_Anna_Tatsiy_.View"
+             xmlns:vm="clr-namespace:Step_course_work1_Anna_Tatsiy_.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="720" d:DesignWidth="1022"
+             Style="{StaticResource Page_Style}">
+
+    <UserControl.DataContext>
+        <vm:RepairVM/>
+    </UserControl.DataContext>
+
+    <Grid Margin="30">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <Border CornerRadius="0,20,20,0"></Border>
+
+        <TextBlock Grid.Row="0" FontSize="24" FontWeight="SemiBold" Margin="0 40 0 20" 
+                   HorizontalAlignment="Left" Foreground="#121518">Список выполняемых ремонтов:</TextBlock>
+
+        <DataGrid Grid.Row="1"
+                     ItemsSource="{Binding Repairs}">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50"></DataGridTextColumn>
+                <DataGridTextColumn Header="Неисправность" Binding="{Binding Malfunction}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Выявлено" Binding="{Binding DateOfDetection,StringFormat=dd.MM.yyy}" Width="120"></DataGridTextColumn>
+                <DataGridTextColumn Header="Сдача авто" Binding="{Binding DateOfCorrection,StringFormat=dd.MM.yyy}" Width="130"></DataGridTextColumn>
+                <DataGridTextColumn Header="Исправлено" Binding="{Binding IsFixedLine}" Width="160"></DataGridTextColumn>
+                <DataGridTextColumn Header="Ремонт ₽" Binding="{Binding MalfunctionsPrice}" Width="90"></DataGridTextColumn>
+                <DataGridTextColumn Header="Детали ₽" Binding="{Binding SparePartPrice}" Width="90"></DataGridTextColumn>
+                <DataGridTextColumn Header="Всего ₽" Binding="{Binding Price}" Width="90"></DataGridTextColumn>
+
+            </DataGrid.Columns>
+
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" Background="White">
+                        <StackPanel Orientation="Horizontal" Margin="15 10 9 5">
+                            <TextBlock Foreground="Black" Text="Рабочий: "/>
+                            <TextBlock Foreground="#FF4E4E4E" Text="{Binding Worker}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"   Margin="15 0 9 5">
+                            <TextBlock Foreground="Black" Text="Специальность: "/>
+                            <TextBlock Foreground="#FF4E4E4E" Text="{Binding Specialization}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"  Margin="15 0 9 5">
+                            <TextBlock Foreground="Black" Text="Клиент: "/>
+                            <TextBlock Foreground="#FF4E4E4E" Text="{Binding Client}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"  Margin="15 0 9 5">
+                            <TextBlock Foreground="Black" Text="Паспорт клиента: "/>
+                            <TextBlock Foreground="#FF4E4E4E" Text="{Binding Passport}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"  Margin="15 0 9 5">
+                            <TextBlock Foreground="Black" Text="Модель авто: "/>
+                            <TextBlock Foreground="#FF4E4E4E" Text="{Binding CarBrand}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"  Margin="15 0 9 5">
+                            <TextBlock Foreground="Black" Text="Гос. номер авто: "/>
+                            <TextBlock Foreground="#FF4E4E4E" Text="{Binding StateNumber}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"  Margin="15 0 15 10">
+                            <TextBlock Foreground="Black" Text="Деталь для ремонта : "/>
+                            <TextBlock Foreground="#FF4E4E4E" Text="{Binding SparePart}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+
+        </DataGrid>
+        
+    </Grid>
+</UserControl>

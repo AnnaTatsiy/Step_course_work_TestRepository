@@ -1,0 +1,33 @@
+﻿<Window x:Class="Step_course_work1_Anna_Tatsiy_.Windows.EditCarWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:Step_course_work1_Anna_Tatsiy_.ViewModel"
+        xmlns:local="clr-namespace:Step_course_work1_Anna_Tatsiy_.Windows"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        Title="Изменить авто" Height="300" Width="500">
+    
+    <Window.DataContext>
+        <viewModel:AppViewModel/>
+    </Window.DataContext>
+
+    <StackPanel Orientation="Vertical">
+        <TextBlock Margin="40" FontSize="14">Изменить гос номер</TextBlock>
+        <TextBox  Margin="40,-30,40,0" FontSize="14" Text="{Binding Car.StateNumber, Mode=TwoWay}"></TextBox>
+
+        <TextBlock Margin="40" FontSize="14">Изменить цвет авто</TextBlock>
+        <ComboBox Margin="40,-30,40,0" FontSize="14"
+                  ItemsSource="{Binding Colors}"
+                  SelectedValue="{Binding ColorId, Mode=TwoWay}"
+                  SelectedValuePath="Id"
+                  DisplayMemberPath="Color"
+                  SelectedIndex="0"></ComboBox>
+
+        <Button Margin="20" Height="25" Width="150" FontSize="14" Background="LightGreen"
+                Command="{Binding EditCarCommand}">Ок</Button>
+    </StackPanel>
+</Window>

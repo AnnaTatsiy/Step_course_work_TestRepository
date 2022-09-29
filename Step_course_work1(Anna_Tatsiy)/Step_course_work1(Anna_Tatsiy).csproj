@@ -44,6 +44,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Material.4.11.0\lib\net47\MahApps.Metro.IconPacks.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks.Material, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.Material.4.11.0\lib\net47\MahApps.Metro.IconPacks.Material.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -66,21 +72,96 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Command\RelayCommand.cs" />
+    <Compile Include="Utilities\Btn.cs" />
+    <Compile Include="ViewModel\AboutVM.cs" />
     <Compile Include="ViewModel\AppViewModel.cs" />
-    <Compile Include="Views\CarView.cs" />
-    <Compile Include="Views\ClientView.cs" />
-    <Compile Include="Views\MalfunctionView.cs" />
-    <Compile Include="Views\Query10View.cs" />
-    <Compile Include="Views\Query4View.cs" />
-    <Compile Include="Views\Query6View.cs" />
-    <Compile Include="Views\Query7View.cs" />
-    <Compile Include="Views\Receipt.cs" />
-    <Compile Include="Views\RepairView.cs" />
-    <Compile Include="Views\SparePartsView.cs" />
-    <Compile Include="Views\WorkerView.cs" />
-    <Compile Include="Views\Сheque.cs" />
+    <Compile Include="Models\Views\CarView.cs" />
+    <Compile Include="Models\Views\ClientView.cs" />
+    <Compile Include="Models\Views\MalfunctionView.cs" />
+    <Compile Include="Models\Reports\Report.cs" />
+    <Compile Include="Models\Views\Query4View.cs" />
+    <Compile Include="Models\Views\Query6View.cs" />
+    <Compile Include="Models\Views\Query7View.cs" />
+    <Compile Include="Models\Views\RepairView.cs" />
+    <Compile Include="Models\Views\SparePartsView.cs" />
+    <Compile Include="Models\Views\WorkerView.cs" />
+    <Compile Include="Models\Views\Сheque.cs" />
+    <Compile Include="ViewModel\ArchiveVM.cs" />
+    <Compile Include="ViewModel\CarVM.cs" />
+    <Compile Include="ViewModel\ClientVM.cs" />
+    <Compile Include="ViewModel\EditCarVM.cs" />
+    <Compile Include="ViewModel\HomeVM.cs" />
+    <Compile Include="ViewModel\NavigationVM.cs" />
+    <Compile Include="ViewModel\Query1VM.cs" />
+    <Compile Include="ViewModel\Query2VM.cs" />
+    <Compile Include="ViewModel\Query3VM.cs" />
+    <Compile Include="ViewModel\Query4VM.cs" />
+    <Compile Include="ViewModel\Query5VM.cs" />
+    <Compile Include="ViewModel\Query6VM.cs" />
+    <Compile Include="ViewModel\Query7VM.cs" />
+    <Compile Include="ViewModel\QueryVM.cs" />
+    <Compile Include="ViewModel\RepairVM.cs" />
+    <Compile Include="ViewModel\WorkerVM.cs" />
+    <Compile Include="ViewModel\СhequeVM.cs" />
+    <Compile Include="View\AboutUserControl.xaml.cs">
+      <DependentUpon>AboutUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Archive.xaml.cs">
+      <DependentUpon>Archive.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Cars.xaml.cs">
+      <DependentUpon>Cars.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Clients.xaml.cs">
+      <DependentUpon>Clients.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditCarUserControl.xaml.cs">
+      <DependentUpon>EditCarUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HomeUserControl.xaml.cs">
+      <DependentUpon>HomeUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Query1UserControl.xaml.cs">
+      <DependentUpon>Query1UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Query2UserControl.xaml.cs">
+      <DependentUpon>Query2UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Query3UserControl.xaml.cs">
+      <DependentUpon>Query3UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Query4UserControl.xaml.cs">
+      <DependentUpon>Query4UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Query5UserControl.xaml.cs">
+      <DependentUpon>Query5UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Query6UserControl.xaml.cs">
+      <DependentUpon>Query6UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Query7UserControl.xaml.cs">
+      <DependentUpon>Query7UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\QueryUserControl.xaml.cs">
+      <DependentUpon>QueryUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Repairs.xaml.cs">
+      <DependentUpon>Repairs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Workers.xaml.cs">
+      <DependentUpon>Workers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\СhequeUserControl.xaml.cs">
+      <DependentUpon>СhequeUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\AddWindow.xaml.cs">
       <DependentUpon>AddWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EditCarWindow.xaml.cs">
+      <DependentUpon>EditCarWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EditClientWindow.xaml.cs">
+      <DependentUpon>EditClientWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -107,7 +188,103 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles\Button.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Image.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Text.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Utilities\DataTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AboutUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Archive.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Cars.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Clients.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditCarUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HomeUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Query1UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Query2UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Query3UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Query4UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Query5UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Query6UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Query7UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\QueryUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Repairs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Workers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\СhequeUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\AddWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\EditCarWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\EditClientWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -153,6 +330,9 @@
   <ItemGroup>
     <Resource Include="Images\add.png" />
     <Resource Include="Images\delete.png" />
+    <Resource Include="Images\icon.png" />
+    <Resource Include="Images\shutdown_def.png" />
+    <Resource Include="Images\shutdown_mo.png" />
     <Content Include="Scripts\CreateFunctionAndProc.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
